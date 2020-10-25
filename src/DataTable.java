@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.sql.*;
 
 
-@WebServlet("/UserLogin")
-public class UserLogin extends HttpServlet {
+@WebServlet("/DataTable")
+public class DataTable extends HttpServlet {
 
     private Connection conn;
     private Statement stmt;
@@ -33,39 +33,41 @@ public class UserLogin extends HttpServlet {
         //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
 
 
-        String user = request.getParameter("username1");
-        String pass = request.getParameter("password1");
-
-
         try {
             // create database connection and statement
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+
+            // query database and get results
+            ResultSet rs = stmt.executeQuery("SELECT * FROM userAccounts");
 
 
-            String stmt = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=?";
-            PreparedStatement ps = conn.prepareStatement(stmt);
+            // create HTML table text
+            String content = "<table border='1' cellspacing='2' cellpadding='2' width='100%' align='left'>" +
+                    "<tr><th>First name</th><th>Last name</th><th>Email</th><th>Phone number</th><th>Username</th><th>Password</th></tr>";
 
-
-            ps.setString(1,user);
-            ps.setString(2,pass);
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()){
-                // display output.jsp page with given content above if successful
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-                request.setAttribute("message", "Successfully logged in!");
-                dispatcher.forward(request, response);
+            // add HTML table data using data from database
+            while (rs.next()) {
+                content += "<tr><td>"+ rs.getString("Firstname") + "</td>" +
+                        "<td>" + rs.getString("Lastname") + "</td>" +
+                        "<td>" + rs.getString("Email") + "</td>" +
+                        "<td>" + rs.getString("Phone") + "</td>" +
+                        "<td>" + rs.getString("Username") + "</td>" +
+                        "<td>" + rs.getString("Pwd") + "</td></tr>";
             }
-            else{
-                // display error.jsp page with given message if successful
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                request.setAttribute("message", "Please enter valid details!");
-                dispatcher.forward(request, response);
-            }
+            // finish HTML table text
+            content += "</table>";
 
             // close connection
             conn.close();
+
+            // display output.jsp page with given content above if successful
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/output.jsp");
+            request.setAttribute("data", content);
+            dispatcher.forward(request, response);
+
+
 
 
         } catch (Exception se) {

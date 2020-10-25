@@ -15,7 +15,7 @@
 
 <p><%= request.getAttribute("message") %></p>
 
-<form action="UserLogin" method="post">
+<form action="DataTable" method="post">
     <input type="submit" value="Get All Data">
 </form>
 
