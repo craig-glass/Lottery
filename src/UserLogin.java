@@ -12,7 +12,6 @@ import java.sql.*;
 public class UserLogin extends HttpServlet {
 
     private Connection conn;
-    private Statement stmt;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -75,11 +74,6 @@ public class UserLogin extends HttpServlet {
             request.setAttribute("message", "Database Error, Please try again");
             dispatcher.forward(request, response);
         } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se2) {
-            }
             try {
                 if (conn != null)
                     conn.close();
