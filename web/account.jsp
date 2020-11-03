@@ -51,7 +51,7 @@
 
 <button onclick="generateNumbers()">Generate Numbers</button>
     <p id="numGen"></p>
-    <p><%= request.getAttribute("numberstring") %></p>
+    <p id="numberstring"><%= request.getAttribute("numberstring") %></p>
 
 
 <form action="DataTable" method="post">
@@ -62,8 +62,13 @@
 
 <script>
     function generateNumbers(){
-        let x = document.getElementById("numGen");
-        x.innerHTML = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numberstring")
+            .innerHTML = "'" + (Math.floor(Math.random() * 60)).toString() + ", "
+        + (Math.floor(Math.random() * 60)).toString() + ", "
+        + (Math.floor(Math.random() * 60)).toString() + ", "
+        + (Math.floor(Math.random() * 60)).toString() + ", "
+        + (Math.floor(Math.random() * 60)).toString() + ", "
+        + (Math.floor(Math.random() * 60)).toString() + "'";
     }
 </script>
 </body>
