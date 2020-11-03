@@ -4,7 +4,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 
@@ -18,6 +20,8 @@ public class UserLogin extends HttpServlet {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String USER = "user";
         String PASS = "password";
+        HttpSession session = request.getSession();
+
 
         // URLs to connect to database depending on your development approach
         // (NOTE: please change to option 1 when submitting)
@@ -33,7 +37,8 @@ public class UserLogin extends HttpServlet {
 
 
         String user = request.getParameter("username1");
-        String pass = request.getParameter("password1");
+        String pass = null;
+
 
 
         try {
@@ -42,18 +47,54 @@ public class UserLogin extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
 
-            String stmt = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=?";
-            PreparedStatement ps = conn.prepareStatement(stmt);
+            // get salt from database
+
+            String stmt = "SELECT Salt FROM userAccounts WHERE Username=?";
+            PreparedStatement st = conn.prepareStatement(stmt);
+
+
+            st.setString(1,user);
+            ResultSet rs = st.executeQuery();
+
+
+            byte[] salt = null;
+            if(rs.next()){
+                salt = rs.getBytes("Salt");
+            }
+
+
+
+            try {
+                pass = CreateAccount.GeneratePassword(request.getParameter("password1"), salt);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+            String stmt1 = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=?";
+            PreparedStatement ps = conn.prepareStatement(stmt1);
 
 
             ps.setString(1,user);
             ps.setString(2,pass);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs1 = ps.executeQuery();
 
-            if(rs.next()){
+            if(rs1.next()){
+                String firstname = rs1.getString("Firstname");
+                String lastname = rs1.getString("Lastname");
+                String email = rs1.getString("Email");
+                String phone = rs1.getString("Phone");
+                String username = rs1.getString("Username");
+
+                session.setAttribute("firstname", firstname);
+                session.setAttribute("lastname", lastname);
+                session.setAttribute("email", email);
+                session.setAttribute("telephone", phone);
+                session.setAttribute("username", username);
+
                 // display output.jsp page with given content above if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
                 request.setAttribute("message", "Successfully logged in!");
+                request.setAttribute("numberstring", "");
                 dispatcher.forward(request, response);
             }
             else{
@@ -81,7 +122,10 @@ public class UserLogin extends HttpServlet {
                 se.printStackTrace();
             }
         }
+
     }
+
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);

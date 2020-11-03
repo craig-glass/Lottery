@@ -9,15 +9,17 @@
 <html>
   <head>
     <title>Home</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.js"></script>
     <script src="jquery.js"></script>
   </head>
   <body>
 
   <h1>Home Page</h1>
   <h2>Registration Form</h2>
-  <form action="CreateAccount" method="post" name="createaccount">
+  <form action="CreateAccount" method="post" class="error" name="createaccount">
       <label for="firstname">First name:</label><br>
       <input type="text" id="firstname" name="firstname"><br>
       <label for="lastname">Last name:</label><br>

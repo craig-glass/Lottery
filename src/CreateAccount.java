@@ -4,7 +4,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.*;
 
 @WebServlet("/CreateAccount")
@@ -19,6 +24,7 @@ public class CreateAccount extends HttpServlet {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String USER = "user";
         String PASS = "password";
+        HttpSession session = request.getSession();
 
         // URLs to connect to database depending on your development approach
         // (NOTE: please change to option 1 when submitting)
@@ -38,7 +44,27 @@ public class CreateAccount extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("telephone");
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String password = null;
+
+        // add values to session
+        session.setAttribute("firstname", firstname);
+        session.setAttribute("lastname", lastname);
+        session.setAttribute("email", email);
+        session.setAttribute("telephone", phone);
+        session.setAttribute("username", username);
+
+
+        byte[] salt = getSalt();
+
+        try {
+            password = GeneratePassword(request.getParameter("password"),salt);
+            session.setAttribute("password", password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         try{
             // create database connection and statement
@@ -46,8 +72,8 @@ public class CreateAccount extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             // Create sql query
-            String query = "INSERT INTO userAccounts (Firstname, Lastname, Email, Phone, Username, Pwd)"
-                    + " VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO userAccounts (Firstname, Lastname, Email, Phone, Username, Pwd, Salt)"
+                    + " VALUES (?, ?, ?, ?, ?, ?,?)";
 
 
             // set values into SQL query statement
@@ -58,6 +84,9 @@ public class CreateAccount extends HttpServlet {
             stmt.setString(4,phone);
             stmt.setString(5,username);
             stmt.setString(6,password);
+            stmt.setBytes(7,salt);
+
+
 
             // execute query and close connection
             stmt.execute();
@@ -66,6 +95,7 @@ public class CreateAccount extends HttpServlet {
             // display account.jsp page with given message if successful
             RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
             request.setAttribute("message", firstname+", you have successfully created an account");
+            request.setAttribute("numberstring", "");
             dispatcher.forward(request, response);
 
         } catch(Exception se){
@@ -90,6 +120,36 @@ public class CreateAccount extends HttpServlet {
         }
 
 
+    }
+
+    // generate salt
+    public static byte[] getSalt(){
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return salt;
+    }
+    // generate hashed password
+    public static String GeneratePassword(String password, byte[] salt) throws NoSuchAlgorithmException {
+
+
+        String generatedPassword = null;
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            byte[] hashedPassword = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < hashedPassword.length; i++){
+                sb.append(Integer.toString((hashedPassword[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
