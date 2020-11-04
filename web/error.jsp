@@ -13,7 +13,7 @@
 <body>
    <h1>Error Page</h1>
 
-   <p><%= request.getAttribute("message") %></p>
+   <p><%= session.getAttribute("message") %></p>
 
    <a href="index.jsp">Home Page</a>
 </body>

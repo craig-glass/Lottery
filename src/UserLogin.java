@@ -93,14 +93,14 @@ public class UserLogin extends HttpServlet {
 
                 // display output.jsp page with given content above if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-                request.setAttribute("message", "Successfully logged in!");
-                request.setAttribute("numberstring", "");
+                session.setAttribute("message", "Successfully logged in!");
+                session.setAttribute("numberstring", "");
                 dispatcher.forward(request, response);
             }
             else{
                 // display error.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                request.setAttribute("message", "Please enter valid details!");
+                session.setAttribute("message", "Please enter valid details!");
                 dispatcher.forward(request, response);
             }
 

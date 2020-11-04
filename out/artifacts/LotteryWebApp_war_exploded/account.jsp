@@ -18,7 +18,7 @@
 <body>
 <h1>User Account</h1>
 
-<p><%= request.getAttribute("message") %></p>
+<p><%= session.getAttribute("message") %></p>
 <table>
     <tr>
         <td>Name: </td>
@@ -42,33 +42,40 @@
     <label for="numbers">Enter 6 numbers between 0 and 60:</label><br><br>
     <input type="text" id="numbers" name="numbers"><br>
     <input type="text" id="numbers1" name="numbers1"><br>
-    <input type="text" id="number2" name="numbers2"><br>
+    <input type="text" id="numbers2" name="numbers2"><br>
     <input type="text" id="numbers3" name="numbers3"><br>
     <input type="text" id="numbers4" name="numbers4"><br>
     <input type="text" id="numbers5" name="numbers5"><br>
-    <input type="submit" value="Submit">
-</form>
+    <input type="submit" value="Confirm">
+
 
 <button onclick="generateNumbers()">Generate Numbers</button>
     <p id="numGen"></p>
-    <p id="numberstring"><%= request.getAttribute("numberstring") %></p>
+    <p id="numberstring"><%= session.getAttribute("numberstring") %></p>
 
-
-<form action="DataTable" method="post">
-    <input type="submit" value="Get All Data">
 </form>
+
+<form action="GetUserNumbers" method="post">
+    <input type="submit" value="Get Draws">
+</form>
+<p><%= session.getAttribute("draws")%></p>
 
 <a href="index.jsp">Home Page</a>
 
 <script>
     function generateNumbers(){
-        document.getElementById("numberstring")
-            .innerHTML = "'" + (Math.floor(Math.random() * 60)).toString() + ", "
-        + (Math.floor(Math.random() * 60)).toString() + ", "
-        + (Math.floor(Math.random() * 60)).toString() + ", "
-        + (Math.floor(Math.random() * 60)).toString() + ", "
-        + (Math.floor(Math.random() * 60)).toString() + ", "
-        + (Math.floor(Math.random() * 60)).toString() + "'";
+        document.getElementById("numbers")
+            .value = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numbers1")
+            .value = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numbers2")
+            .value = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numbers3")
+            .value = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numbers4")
+            .value = (Math.floor(Math.random() * 60)).toString();
+        document.getElementById("numbers5")
+            .value = (Math.floor(Math.random() * 60)).toString();
     }
 </script>
 </body>

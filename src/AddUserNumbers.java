@@ -4,11 +4,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/AddUserNumbers")
 public class AddUserNumbers extends HttpServlet {
+
+    EncryptionStorage es = new EncryptionStorage();
+
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
 
         // get parameter data from html form
         StringBuilder sb = new StringBuilder();
@@ -19,11 +26,20 @@ public class AddUserNumbers extends HttpServlet {
         sb.append(request.getParameter("numbers4") + ", ");
         sb.append(request.getParameter("numbers5") + "'");
 
+
+
+        es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\Stage_2\\Security\\Assignment\\CSC2031 Coursework\\LotteryWebApp\\encrypted.txt", es.encryptData(sb.toString()));
+
+        session.setAttribute("es", es);
+
+        session.setAttribute("cipher", es.getCipher());
+        session.setAttribute("pair", es.getPair());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-        request.setAttribute("numberstring", sb);
-        request.setAttribute("message", "");
+        session.setAttribute("numberstring", sb);
+        session.setAttribute("message", "");
         dispatcher.forward(request, response);
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
