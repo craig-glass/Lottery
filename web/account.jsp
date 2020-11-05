@@ -1,4 +1,8 @@
-<%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.lang.reflect.Array" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Set" %><%--
   Created by IntelliJ IDEA.
   User: johnmace
   Date: 21/10/2020
@@ -48,17 +52,33 @@
     <input type="text" id="numbers5" name="numbers5"><br>
     <input type="submit" value="Confirm">
 
-
-<button onclick="generateNumbers()">Generate Numbers</button>
-    <p id="numGen"></p>
-    <p id="numberstring"><%= session.getAttribute("numberstring") %></p>
-
 </form>
+<button onclick="generateNumbers()">Generate Numbers</button>
+    <p><%= session.getAttribute("numberstring") %></p>
+
+
 
 <form action="GetUserNumbers" method="post">
     <input type="submit" value="Get Draws">
 </form>
-<p><%= session.getAttribute("draws")%></p>
+
+
+<% Set<String> numSet = (HashSet<String>) session.getAttribute("set");
+if(numSet != null){
+    for(String num : numSet){
+%>
+<tr>
+    <td>
+        <%= num %>
+    </td>
+</tr></br>
+<%
+    }
+%>
+<%
+}
+%>
+
 
 <a href="index.jsp">Home Page</a>
 

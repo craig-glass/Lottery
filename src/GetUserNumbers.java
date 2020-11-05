@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.KeyPair;
+import java.util.*;
+
 
 @WebServlet("/GetUserNumbers")
 public class GetUserNumbers extends HttpServlet {
 
+    Set<String> strings = new HashSet<>();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
@@ -20,12 +23,13 @@ public class GetUserNumbers extends HttpServlet {
         String data = es.decryptData(es.bytesFileReader(
                 "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
                         "Security\\Assignment\\CSC2031 Coursework\\" +
-                        "LotteryWebApp\\encrypted.txt"));
+                        "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"));
 
 
+        strings.add(data);
+        session.setAttribute("set", strings);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-        session.setAttribute("draws", data);
         dispatcher.forward(request, response);
     }
 

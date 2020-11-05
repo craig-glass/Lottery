@@ -26,6 +26,8 @@ public class CreateAccount extends HttpServlet {
         String PASS = "password";
         HttpSession session = request.getSession();
 
+
+
         // URLs to connect to database depending on your development approach
         // (NOTE: please change to option 1 when submitting)
 

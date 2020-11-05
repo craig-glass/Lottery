@@ -3,13 +3,12 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpSession;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
+import java.util.Random;
 
 public class EncryptionStorage {
 
@@ -56,7 +55,7 @@ public class EncryptionStorage {
 
     public void bytesFileWriter(String filename, byte[] data){
         try{
-            OutputStream os = new FileOutputStream(filename, true);
+            OutputStream os = new FileOutputStream(filename);
             os.write(data);
             os.flush();
             os.close();
@@ -68,8 +67,16 @@ public class EncryptionStorage {
 
     public byte[] bytesFileReader(String filename){
         try{
-            System.out.println(filename.length());
-            return Files.readAllBytes(Paths.get(filename));
+
+
+            File file = new File(filename);
+            RandomAccessFile data = new RandomAccessFile(file, "r");
+            byte [] fileData = new byte[256];
+
+            data.read(fileData);
+
+
+            return fileData;
         }
         catch(IOException e){
             e.printStackTrace();

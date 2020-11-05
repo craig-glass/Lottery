@@ -8,12 +8,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 @WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
 
     private Connection conn;
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -22,6 +24,7 @@ public class UserLogin extends HttpServlet {
         String PASS = "password";
         HttpSession session = request.getSession();
 
+        session.removeAttribute("set");
 
         // URLs to connect to database depending on your development approach
         // (NOTE: please change to option 1 when submitting)
@@ -84,12 +87,15 @@ public class UserLogin extends HttpServlet {
                 String email = rs1.getString("Email");
                 String phone = rs1.getString("Phone");
                 String username = rs1.getString("Username");
+                String password = rs1.getString("Pwd");
+
 
                 session.setAttribute("firstname", firstname);
                 session.setAttribute("lastname", lastname);
                 session.setAttribute("email", email);
                 session.setAttribute("telephone", phone);
                 session.setAttribute("username", username);
+                session.setAttribute("password", password);
 
                 // display output.jsp page with given content above if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
