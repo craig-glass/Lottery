@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -24,7 +25,6 @@ public class UserLogin extends HttpServlet {
         String PASS = "password";
         HttpSession session = request.getSession();
 
-        session.removeAttribute("set");
 
         // URLs to connect to database depending on your development approach
         // (NOTE: please change to option 1 when submitting)
@@ -73,6 +73,7 @@ public class UserLogin extends HttpServlet {
                 e.printStackTrace();
             }
 
+
             String stmt1 = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=?";
             PreparedStatement ps = conn.prepareStatement(stmt1);
 
@@ -80,6 +81,11 @@ public class UserLogin extends HttpServlet {
             ps.setString(1,user);
             ps.setString(2,pass);
             ResultSet rs1 = ps.executeQuery();
+
+            if(!pass.substring(0, 20).equals(session.getAttribute("filename"))){
+                GetUserNumbers.getStrings().clear();
+                session.removeAttribute("set");
+            }
 
             if(rs1.next()){
                 String firstname = rs1.getString("Firstname");
@@ -97,6 +103,8 @@ public class UserLogin extends HttpServlet {
                 session.setAttribute("username", username);
                 session.setAttribute("password", password);
 
+
+
                 // display output.jsp page with given content above if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
                 session.setAttribute("message", "Successfully logged in!");
@@ -104,6 +112,8 @@ public class UserLogin extends HttpServlet {
                 dispatcher.forward(request, response);
             }
             else{
+
+
                 // display error.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                 session.setAttribute("message", "Please enter valid details!");

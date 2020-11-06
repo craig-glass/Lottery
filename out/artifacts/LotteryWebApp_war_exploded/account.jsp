@@ -70,6 +70,12 @@ if(numSet != null){
 <tr>
     <td>
         <%= num %>
+        <% if(num.equals(session.getAttribute("winningnumbers"))){
+            %>
+        Winner!
+        <%
+        }
+        %>
     </td>
 </tr></br>
 <%
@@ -81,6 +87,7 @@ if(numSet != null){
 
 
 <a href="index.jsp">Home Page</a>
+<a href="admin/admin_home.jsp">Admin Page</a>
 
 <script>
     function generateNumbers(){

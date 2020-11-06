@@ -12,7 +12,8 @@ import java.sql.PreparedStatement;
 public class AddUserNumbers extends HttpServlet {
 
     EncryptionStorage es = new EncryptionStorage();
-
+    public String filename;
+    public String file;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,11 +30,11 @@ public class AddUserNumbers extends HttpServlet {
 
 
         System.out.println(session.getAttribute("password"));
-       String filename = (String) session.getAttribute("password");
+        filename = (String) session.getAttribute("password");
         System.out.println(filename);
-       String file = filename.substring(0, 20);
+        file = filename.substring(0, 20);
         System.out.println(file);
-       session.setAttribute("filename", file);
+        session.setAttribute("filename", file);
 
         es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
                 "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +

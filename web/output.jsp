@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<h1>Database Contents</h1>
+<h1>User Details</h1>
 
 <div>
     <%= request.getAttribute("data") %>

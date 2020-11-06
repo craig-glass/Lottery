@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.security.KeyPair;
 import java.util.*;
@@ -14,7 +15,11 @@ import java.util.*;
 @WebServlet("/GetUserNumbers")
 public class GetUserNumbers extends HttpServlet {
 
-    Set<String> strings = new HashSet<>();
+    public static Set<String> strings = new HashSet<>();
+
+    public static Set<String> getStrings(){
+        return strings;
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
