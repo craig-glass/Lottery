@@ -41,7 +41,7 @@ $(function(){
     });
 });
 $(function(){
-    $("form[name='userlogin']").validate({
+    $("form[name='login']").validate({
         rules:{
             username1: "required",
             password1: {

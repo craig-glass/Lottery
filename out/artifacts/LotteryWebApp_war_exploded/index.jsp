@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: johnmace
-  Date: 21/10/2020
-  Time: 15:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -19,6 +12,14 @@
   <body>
 
   <h1>Home Page</h1>
+
+  <% if(session.getAttribute("message") != null){
+  %>
+        <p><%= session.getAttribute("message") %></p>
+  <%
+      }
+  %>
+
   <h2>Registration Form</h2>
   <form action="CreateAccount" method="post" class="error" name="createaccount">
       <label for="firstname">First name:</label><br>
@@ -33,17 +34,33 @@
       <input type="text" id="username" name="username"><br><br>
       <label for="password">Password:</label><br>
       <input type="password" id="password" name="password">
-      <input type="submit" value="Submit">
+
+      <br>
+      <select name="role_form">
+          <option value="" selected="selected"> - Select Role - </option>
+          <option value="admin">Admin</option>
+          <option value="public">Public</option>
+      </select>
+      <input type="submit" name="register_btn" value="Submit">
   </form>
   <br>
   <h2>Login Form</h2>
-  <form action="UserLogin" method="post" name="userlogin">
+  <form action="UserLogin" method="post" name="login">
       <label for="username1">Username:</label><br>
       <input type="text" id="username1" name="username1"><br><br>
       <label for="password1">Password:</label><br>
       <input type="password" id="password1" name="password1">
-      <input type="submit" value="login">
+
+      <br>
+      <select name="role_form">
+          <option value="" selected="selected"> - Select Role - </option>
+          <option value="admin">Admin</option>
+          <option value="public">Public</option>
+      </select>
+
+      <input type="submit" name="login_btn" value="login">
   </form>
 
+  
   </body>
 </html>

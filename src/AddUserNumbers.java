@@ -21,12 +21,12 @@ public class AddUserNumbers extends HttpServlet {
 
         // get parameter data from html form
         StringBuilder sb = new StringBuilder();
-        sb.append("'" + request.getParameter("numbers") + ", ");
-        sb.append(request.getParameter("numbers1") + ", ");
-        sb.append(request.getParameter("numbers2") + ", ");
-        sb.append(request.getParameter("numbers3") + ", ");
-        sb.append(request.getParameter("numbers4") + ", ");
-        sb.append(request.getParameter("numbers5") + "'");
+        sb.append("'").append(request.getParameter("numbers")).append(", ");
+        sb.append(request.getParameter("numbers1")).append(", ");
+        sb.append(request.getParameter("numbers2")).append(", ");
+        sb.append(request.getParameter("numbers3")).append(", ");
+        sb.append(request.getParameter("numbers4")).append(", ");
+        sb.append(request.getParameter("numbers5")).append("'");
 
 
         System.out.println(session.getAttribute("password"));
@@ -36,9 +36,13 @@ public class AddUserNumbers extends HttpServlet {
         System.out.println(file);
         session.setAttribute("filename", file);
 
-        es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
-                "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +
-                "LotteryWebApp\\" + file + ".txt", es.encryptData(sb.toString()));
+        try {
+            es.textFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
+                    "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +
+                    "LotteryWebApp\\" + file + ".txt", es.encryptData(sb.toString(), "secret"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         session.setAttribute("es", es);
 

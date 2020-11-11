@@ -40,85 +40,93 @@ public class CreateAccount extends HttpServlet {
         // 3. use this when running tomcat and mysql database servers on your machine
         //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
 
-        // get parameter data that was submitted in HTML form (use form attributes 'name')
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("telephone");
-        String username = request.getParameter("username");
-        String password = null;
+        // check register button has been pressed
+        if(request.getParameter("register_btn") != null){
+            // get parameter data that was submitted in HTML form (use form attributes 'name')
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("telephone");
+            String username = request.getParameter("username");
+            String role = request.getParameter("role_form");
+            String password = null;
 
-        // add values to session
-        session.setAttribute("firstname", firstname);
-        session.setAttribute("lastname", lastname);
-        session.setAttribute("email", email);
-        session.setAttribute("telephone", phone);
-        session.setAttribute("username", username);
+            // add values to session
+            session.setAttribute("firstname", firstname);
+            session.setAttribute("lastname", lastname);
+            session.setAttribute("email", email);
+            session.setAttribute("telephone", phone);
+            session.setAttribute("username", username);
+            session.setAttribute("role", role);
 
+            byte[] salt = getSalt();
 
-        byte[] salt = getSalt();
-
-        try {
-            password = GeneratePassword(request.getParameter("password"),salt);
-            session.setAttribute("password", password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-        try{
-            // create database connection and statement
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            // Create sql query
-            String query = "INSERT INTO userAccounts (Firstname, Lastname, Email, Phone, Username, Pwd, Salt)"
-                    + " VALUES (?, ?, ?, ?, ?, ?,?)";
-
-
-            // set values into SQL query statement
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1,firstname);
-            stmt.setString(2,lastname);
-            stmt.setString(3,email);
-            stmt.setString(4,phone);
-            stmt.setString(5,username);
-            stmt.setString(6,password);
-            stmt.setBytes(7,salt);
-
-
-
-            // execute query and close connection
-            stmt.execute();
-            conn.close();
-
-            // display account.jsp page with given message if successful
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-            session.setAttribute("message", firstname+", you have successfully created an account");
-            session.setAttribute("numberstring", "");
-            dispatcher.forward(request, response);
-
-        } catch(Exception se){
-            se.printStackTrace();
-            // display error.jsp page with given message if unsuccessful
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-            session.setAttribute("message", firstname+", this username/password combination already exists. Please try again");
-            dispatcher.forward(request, response);
-        }
-        finally{
-            try{
-                if(stmt!=null)
-                    stmt.close();
+            try {
+                password = GeneratePassword(request.getParameter("password"),salt);
+                session.setAttribute("password", password);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
-            catch(SQLException se2){}
+
+
+
+
             try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
+                // create database connection and statement
+                Class.forName(JDBC_DRIVER);
+                conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+                // Create sql query
+                String query = "INSERT INTO userAccounts (Firstname, Lastname, Email, Phone, Username, Pwd, UserRole, Salt)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+                // set values into SQL query statement
+                stmt = conn.prepareStatement(query);
+                stmt.setString(1,firstname);
+                stmt.setString(2,lastname);
+                stmt.setString(3,email);
+                stmt.setString(4,phone);
+                stmt.setString(5,username);
+                stmt.setString(6,password);
+                stmt.setString(7, role);
+                stmt.setBytes(8,salt);
+
+
+
+
+                // execute query and close connection
+                stmt.execute();
+                conn.close();
+
+                // display account.jsp page with given message if successful
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                session.setAttribute("message", firstname+", you have successfully created an account");
+                session.setAttribute("numberstring", "");
+                dispatcher.forward(request, response);
+
+            } catch(Exception se){
                 se.printStackTrace();
+                // display error.jsp page with given message if unsuccessful
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                session.setAttribute("message", firstname+", this username/password combination already exists. Please try again");
+                dispatcher.forward(request, response);
             }
+            finally{
+                try{
+                    if(stmt!=null)
+                        stmt.close();
+                }
+                catch(SQLException se2){}
+                try{
+                    if(conn!=null)
+                        conn.close();
+                }catch(SQLException se){
+                    se.printStackTrace();
+                }
+            }
+
+
         }
 
 

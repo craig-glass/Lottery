@@ -19,7 +19,7 @@
 </div>
 
 <div>
-    <a href="index.jsp">Home Page</a>
+    <a href="account.jsp">Home Page</a>
 </div>
 
 </body>

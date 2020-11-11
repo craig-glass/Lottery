@@ -13,8 +13,16 @@
 <body>
    <h1>Error Page</h1>
 
+   <% if(session.getAttribute("message") != null){
+   %>
    <p><%= session.getAttribute("message") %></p>
+   <%
+       }
+   %>
 
-   <a href="index.jsp">Home Page</a>
+   <a href="index.jsp">Back To Login</a>
+<script type="text/javascript">
+
+</script>
 </body>
 </html>

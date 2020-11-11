@@ -1,3 +1,5 @@
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 public class UserLogin extends HttpServlet {
 
     private Connection conn;
-
+    private int attempts = 0;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -39,105 +41,139 @@ public class UserLogin extends HttpServlet {
         //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
 
 
-        String user = request.getParameter("username1");
-        String pass = null;
 
 
-
-        try {
-            // create database connection and statement
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-
-            // get salt from database
-
-            String stmt = "SELECT Salt FROM userAccounts WHERE Username=?";
-            PreparedStatement st = conn.prepareStatement(stmt);
-
-
-            st.setString(1,user);
-            ResultSet rs = st.executeQuery();
-
-
-            byte[] salt = null;
-            if(rs.next()){
-                salt = rs.getBytes("Salt");
-            }
-
-
+            String user = request.getParameter("username1");
+            String pass = request.getParameter("password1");
+            String role = request.getParameter("role_form");
 
             try {
-                pass = CreateAccount.GeneratePassword(request.getParameter("password1"), salt);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-
-
-            String stmt1 = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=?";
-            PreparedStatement ps = conn.prepareStatement(stmt1);
-
-
-            ps.setString(1,user);
-            ps.setString(2,pass);
-            ResultSet rs1 = ps.executeQuery();
-
-            if(!pass.substring(0, 20).equals(session.getAttribute("filename"))){
-                GetUserNumbers.getStrings().clear();
-                session.removeAttribute("set");
-            }
-
-            if(rs1.next()){
-                String firstname = rs1.getString("Firstname");
-                String lastname = rs1.getString("Lastname");
-                String email = rs1.getString("Email");
-                String phone = rs1.getString("Phone");
-                String username = rs1.getString("Username");
-                String password = rs1.getString("Pwd");
-
-
-                session.setAttribute("firstname", firstname);
-                session.setAttribute("lastname", lastname);
-                session.setAttribute("email", email);
-                session.setAttribute("telephone", phone);
-                session.setAttribute("username", username);
-                session.setAttribute("password", password);
+                // create database connection and statement
+                Class.forName(JDBC_DRIVER);
+                conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
 
 
-                // display output.jsp page with given content above if successful
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-                session.setAttribute("message", "Successfully logged in!");
-                session.setAttribute("numberstring", "");
-                dispatcher.forward(request, response);
-            }
-            else{
+                // check username exists
+                String stmtUser = "SELECT * FROM userAccounts WHERE Username=?";
+                PreparedStatement stUser = conn.prepareStatement(stmtUser);
+                stUser.setString(1,user);
+                ResultSet rsUser = stUser.executeQuery();
+
+                if(rsUser.next()){
+                    // get salt from database
 
 
+                    String stmt = "SELECT Salt FROM userAccounts WHERE Username=?";
+                    PreparedStatement st = conn.prepareStatement(stmt);
+
+
+                    st.setString(1,user);
+                    ResultSet rs = st.executeQuery();
+
+
+                    byte[] salt = null;
+                    if(rs.next()){
+                        salt = rs.getBytes("Salt");
+                    }
+
+                    try {
+                        pass = CreateAccount.GeneratePassword(pass, salt);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+
+                    session.setAttribute("pass", pass);
+
+                    String stmt1 = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=? AND UserRole=?";
+                    PreparedStatement ps = conn.prepareStatement(stmt1);
+
+
+                    ps.setString(1,user);
+                    ps.setString(2,pass);
+                    ps.setString(3, role);
+                    ResultSet rs1 = ps.executeQuery();
+
+
+                    if(rs1.next()){
+                        String dbfirstname = rs1.getString("Firstname");
+                        String dblastname = rs1.getString("Lastname");
+                        String dbemail = rs1.getString("Email");
+                        String dbphone = rs1.getString("Phone");
+                        String dbusername = rs1.getString("Username");
+                        String dbpassword = rs1.getString("Pwd");
+                        String dbrole = rs1.getString("UserRole");
+
+                        if(user.equals(dbusername) && pass.equals(dbpassword) &&
+                                role.equals(dbrole)){
+                            session.setAttribute("firstname", dbfirstname);
+                            session.setAttribute("lastname", dblastname);
+                            session.setAttribute("email", dbemail);
+                            session.setAttribute("telephone", dbphone);
+                            session.setAttribute("username", dbusername);
+
+                            if(dbrole.equals("admin")){
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("" +
+                                        "/admin/admin_home.jsp");
+                                session.setAttribute("admin_login", dbusername);
+                                dispatcher.forward(request, response);
+                            }else if(dbrole.equals("public")){
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("" +
+                                        "/account.jsp");
+                                session.setAttribute("message", "Successfully logged in!");
+                                session.setAttribute("numberstring", "");
+                                session.setAttribute("public_login", dbusername);
+                                dispatcher.forward(request, response);
+                            }
+                        }
+
+                    }
+                    else{
+
+                        // display error.jsp page with given message if successful
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                        session.setAttribute("message", "Please enter valid details!");
+                        dispatcher.forward(request, response);
+
+                    }
+
+                    // close connection
+                    conn.close();
+                } else{
+
+                    attempts += 1;
+                    if(attempts == 3){
+                        session.setAttribute("attempts", attempts);
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                        dispatcher.forward(request, response);
+                    }else{
+                        // display error.jsp page with given message if successful
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                        session.setAttribute("message", "Please enter valid details!");
+                        dispatcher.forward(request, response);
+                    }
+
+
+                }
+
+
+
+            } catch (Exception se) {
+                se.printStackTrace();
                 // display error.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                session.setAttribute("message", "Please enter valid details!");
+                request.setAttribute("message", "Database Error, Please try again");
                 dispatcher.forward(request, response);
+            } finally {
+                try {
+                    if (conn != null)
+                        conn.close();
+                } catch (SQLException se) {
+                    se.printStackTrace();
+                }
             }
 
-            // close connection
-            conn.close();
 
-
-        } catch (Exception se) {
-            se.printStackTrace();
-            // display error.jsp page with given message if successful
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-            request.setAttribute("message", "Database Error, Please try again");
-            dispatcher.forward(request, response);
-        } finally {
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
 
     }
 

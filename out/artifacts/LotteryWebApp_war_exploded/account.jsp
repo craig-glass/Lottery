@@ -1,14 +1,4 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.lang.reflect.Array" %>
-<%@ page import="java.util.HashSet" %>
-<%@ page import="java.util.Set" %><%--
-  Created by IntelliJ IDEA.
-  User: johnmace
-  Date: 21/10/2020
-  Time: 16:05
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -50,7 +40,7 @@
     <input type="text" id="numbers3" name="numbers3"><br>
     <input type="text" id="numbers4" name="numbers4"><br>
     <input type="text" id="numbers5" name="numbers5"><br>
-    <input type="submit" value="Confirm">
+    <input type="submit" value="Add To Draw">
 
 </form>
 <button onclick="generateNumbers()">Generate Numbers</button>
@@ -63,31 +53,17 @@
 </form>
 
 
-<% Set<String> numSet = (HashSet<String>) session.getAttribute("set");
-if(numSet != null){
-    for(String num : numSet){
-%>
+<% String numSet = (String) session.getAttribute("set"); %>
 <tr>
     <td>
-        <%= num %>
-        <% if(num.equals(session.getAttribute("winningnumbers"))){
-            %>
-        Winner!
-        <%
-        }
-        %>
+        <%= numSet %>
     </td>
 </tr></br>
-<%
-    }
-%>
-<%
-}
-%>
 
-
-<a href="index.jsp">Home Page</a>
-<a href="admin/admin_home.jsp">Admin Page</a>
+<form action="LogOut">
+    <input type="submit" value="Log Out">
+</form><br>
+<a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>
 
 <script>
     function generateNumbers(){

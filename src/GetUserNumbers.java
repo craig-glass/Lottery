@@ -15,24 +15,26 @@ import java.util.*;
 @WebServlet("/GetUserNumbers")
 public class GetUserNumbers extends HttpServlet {
 
-    public static Set<String> strings = new HashSet<>();
 
-    public static Set<String> getStrings(){
-        return strings;
-    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
         EncryptionStorage es = (EncryptionStorage) session.getAttribute("es");
 
-        String data = es.decryptData(es.bytesFileReader(
-                "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
-                        "Security\\Assignment\\CSC2031 Coursework\\" +
-                        "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"));
+        String data = new String();
+        try {
+            data = es.decryptData(es.textFileReader(
+                    "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
+                            "Security\\Assignment\\CSC2031 Coursework\\" +
+                            "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"), "secret");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-        strings.add(data);
-        session.setAttribute("set", strings);
+        System.out.println("Data: " + data);
+        session.setAttribute("set", data);
+        System.out.println(session.getId());
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
         dispatcher.forward(request, response);

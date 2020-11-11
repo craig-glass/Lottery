@@ -18,5 +18,6 @@
         <input type="submit" value="Generate Winning Numbers">
     </form>
     <p><%= session.getAttribute("winningnumbers") %></p>
+<a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>
 </body>
 </html>
