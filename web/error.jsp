@@ -13,9 +13,9 @@
 <body>
    <h1>Error Page</h1>
 
-   <% if(session.getAttribute("message") != null){
+   <% if(request.getAttribute("message") != null){
    %>
-   <p><%= session.getAttribute("message") %></p>
+   <p><%= request.getAttribute("message") %></p>
    <%
        }
    %>

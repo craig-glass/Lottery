@@ -19,7 +19,7 @@
 </div>
 
 <div>
-    <a href="account.jsp">Home Page</a>
+    <a href="index.jsp">Back To Login Page</a>
 </div>
 
 </body>

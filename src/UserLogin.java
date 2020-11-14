@@ -1,17 +1,11 @@
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.ArrayList;
 
 
 @WebServlet("/UserLogin")
@@ -106,6 +100,7 @@ public class UserLogin extends HttpServlet {
 
                         if(user.equals(dbusername) && pass.equals(dbpassword) &&
                                 role.equals(dbrole)){
+                            
                             session.setAttribute("firstname", dbfirstname);
                             session.setAttribute("lastname", dblastname);
                             session.setAttribute("email", dbemail);
@@ -141,15 +136,25 @@ public class UserLogin extends HttpServlet {
                     conn.close();
                 } else{
 
+                    if(attempts > 2){
+                        attempts = 0;
+                    }
                     attempts += 1;
+                    System.out.println("Attempts = " + attempts);
                     if(attempts == 3){
-                        session.setAttribute("attempts", attempts);
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                        Cookie attempts = new Cookie("attempts", "3");
+                        response.addCookie(attempts);
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                        request.setAttribute("message", "Please enter valid details!");
                         dispatcher.forward(request, response);
-                    }else{
+
+                    }
+
+                    else{
+
                         // display error.jsp page with given message if successful
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                        session.setAttribute("message", "Please enter valid details!");
+                        request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
                         dispatcher.forward(request, response);
                     }
 

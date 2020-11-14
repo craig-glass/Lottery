@@ -23,10 +23,10 @@ public class GetUserNumbers extends HttpServlet {
 
         String data = new String();
         try {
-            data = es.decryptData(es.textFileReader(
+            data = es.decryptData(es.bytesFileReader(
                     "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
                             "Security\\Assignment\\CSC2031 Coursework\\" +
-                            "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"), "secret");
+                            "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
