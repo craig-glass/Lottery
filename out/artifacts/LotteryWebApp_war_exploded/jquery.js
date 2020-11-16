@@ -90,6 +90,10 @@ $(function(){
                 required: "Please enter a number",
                 pattern: "Please enter a number between 0 and 60"
             },
+            numbers1: {
+                required: "Please enter a number",
+                pattern: "Please enter a number between 0 and 60"
+            },
             numbers2: {
                 required: "Please enter a number",
                 pattern: "Please enter a number between 0 and 60"
@@ -103,10 +107,6 @@ $(function(){
                 pattern: "Please enter a number between 0 and 60"
             },
             numbers5: {
-                required: "Please enter a number",
-                pattern: "Please enter a number between 0 and 60"
-            },
-            numbers6: {
                 required: "Please enter a number",
                 pattern: "Please enter a number between 0 and 60"
             }

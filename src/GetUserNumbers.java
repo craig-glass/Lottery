@@ -28,7 +28,7 @@ public class GetUserNumbers extends HttpServlet {
             data = es.splitData(es.bytesFileReader(
                     "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
                             "Security\\Assignment\\CSC2031 Coursework\\" +
-                            "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"));
+                            "LotteryWebApp\\EncryptedFiles\\" + session.getAttribute("filename") + ".txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }

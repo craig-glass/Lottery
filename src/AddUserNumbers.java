@@ -30,7 +30,7 @@ public class AddUserNumbers extends HttpServlet {
         try {
             es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
                     "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +
-                    "LotteryWebApp\\" + session.getAttribute("filename") + ".txt", es.encryptData(sb.toString()));
+                    "LotteryWebApp\\EncryptedFiles\\" + session.getAttribute("filename") + ".txt", es.encryptData(sb.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }

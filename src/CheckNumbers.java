@@ -1,11 +1,9 @@
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -47,6 +45,19 @@ public class CheckNumbers extends HttpServlet {
                         if(number.equals(winningNumber)){
                             noWin = false;
                             session.setAttribute("winner", "Winner!");
+
+                            File dir = new File("C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
+                                    "Security\\Assignment\\CSC2031 Coursework\\" +
+                                    "LotteryWebApp\\EncryptedFiles");
+
+                            if(dir.exists()){
+                                for(File file : dir.listFiles()){
+                                    if(!file.isDirectory()){
+                                        file.delete();
+                                    }
+
+                                }
+                            }
                             response.sendRedirect(request.getContextPath() + "/account.jsp");
                         }
 

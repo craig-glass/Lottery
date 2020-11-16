@@ -24,4 +24,10 @@
         <filter-name>PathTraversalFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
+
+    <listener>
+        <listener-class>
+            ContextListener
+        </listener-class>
+    </listener>
 </web-app>
