@@ -1,0 +1,19 @@
+
+label.error {
+    color: red;
+}
+h1 {
+    margin-bottom: 50px;
+    text-align: center;
+    text-decoration: underline;
+}
+#registration {
+    margin-bottom: 50px;
+}
+input, button {
+    background-color: aliceblue;
+}
+.button:hover {
+    cursor: pointer;
+}
+

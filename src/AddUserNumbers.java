@@ -29,11 +29,9 @@ public class AddUserNumbers extends HttpServlet {
         sb.append(request.getParameter("numbers5")).append("'");
 
 
-        System.out.println(session.getAttribute("password"));
+
         filename = (String) session.getAttribute("password");
-        System.out.println(filename);
         file = filename.substring(0, 20);
-        System.out.println(file);
         session.setAttribute("filename", file);
 
         try {

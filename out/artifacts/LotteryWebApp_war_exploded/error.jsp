@@ -15,7 +15,7 @@
 
    <% if(request.getAttribute("message") != null){
    %>
-   <p><%= request.getAttribute("message") %></p>
+   <p style="color: red;"><%= request.getAttribute("message") %></p>
    <%
        }
    %>

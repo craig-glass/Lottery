@@ -14,4 +14,14 @@
         <filter-name>ServerFilter</filter-name>
         <url-pattern>/CreateAccount</url-pattern>
     </filter-mapping>
+
+    <display-name>PathTraversalFilter</display-name>
+    <filter>
+        <filter-name>PathTraversalFilter</filter-name>
+        <filter-class>PathTraversalFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PathTraversalFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
 </web-app>

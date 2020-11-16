@@ -1,9 +1,10 @@
-
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.lang.reflect.Array" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Account</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="static/style.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.js"></script>
@@ -12,7 +13,7 @@
 <body>
 <h1>User Account</h1>
 
-<p><%= session.getAttribute("message") %></p>
+<p><%= request.getAttribute("message") %></p>
 <table>
     <tr>
         <td>Name: </td>
@@ -40,28 +41,39 @@
     <input type="text" id="numbers3" name="numbers3"><br>
     <input type="text" id="numbers4" name="numbers4"><br>
     <input type="text" id="numbers5" name="numbers5"><br>
-    <input type="submit" value="Add To Draw">
+    <input class="button" type="submit" value="Add To Draw">
 
 </form>
-<button onclick="generateNumbers()">Generate Numbers</button>
+<button class="button" onclick="generateNumbers()">Generate Numbers</button>
     <p><%= session.getAttribute("numberstring") %></p>
 
 
 
 <form action="GetUserNumbers" method="post">
-    <input type="submit" value="Get Draws">
+    <input class="button" type="submit" value="Get Draws">
 </form>
 
 
-<% String numSet = (String) session.getAttribute("set"); %>
+<% String[] numSet = (String[]) session.getAttribute("set"); %>
+<% if(numSet != null){ %>
+
+<% for(String nums : numSet){ %>
+
 <tr>
     <td>
-        <%= numSet %>
+        <%= nums %>
     </td>
-</tr></br>
+</tr><br>
+<%
+    }
+%>
+<%
+    }
+%>
+<br>
 
 <form action="LogOut">
-    <input type="submit" value="Log Out">
+    <input class="button" type="submit" value="Log Out">
 </form><br>
 <a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>
 

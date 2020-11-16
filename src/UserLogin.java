@@ -115,9 +115,10 @@ public class UserLogin extends HttpServlet {
                             }else if(dbrole.equals("public")){
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
                                         "/account.jsp");
-                                session.setAttribute("message", "Successfully logged in!");
+                                request.setAttribute("message", "Successfully logged in!");
                                 session.setAttribute("numberstring", "");
                                 session.setAttribute("public_login", dbusername);
+                                session.setAttribute("password", dbpassword);
                                 dispatcher.forward(request, response);
                             }
                         }
@@ -125,10 +126,27 @@ public class UserLogin extends HttpServlet {
                     }
                     else{
 
-                        // display error.jsp page with given message if successful
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                        session.setAttribute("message", "Please enter valid details!");
-                        dispatcher.forward(request, response);
+                        if(attempts > 2){
+                            attempts = 0;
+                        }
+                        attempts += 1;
+                        System.out.println("Attempts = " + attempts);
+                        if(attempts == 3){
+                            Cookie attempts = new Cookie("attempts", "3");
+                            response.addCookie(attempts);
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                            request.setAttribute("message", "No attempts left!!!");
+                            dispatcher.forward(request, response);
+
+                        }
+
+                        else{
+
+                            // display error.jsp page with given message if successful
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                            request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
+                            dispatcher.forward(request, response);
+                        }
 
                     }
 
@@ -145,13 +163,14 @@ public class UserLogin extends HttpServlet {
                         Cookie attempts = new Cookie("attempts", "3");
                         response.addCookie(attempts);
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                        request.setAttribute("message", "Please enter valid details!");
+                        request.setAttribute("message", "No attempts left!!!");
                         dispatcher.forward(request, response);
-
                     }
 
                     else{
 
+                        Cookie unsuccessful = new Cookie("unsuccessful", "true");
+                        response.addCookie(unsuccessful);
                         // display error.jsp page with given message if successful
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                         request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");

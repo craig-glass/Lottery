@@ -9,13 +9,14 @@
 <html>
 <head>
     <title>Admin Home Page</title>
+    <link href="static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <form action="${pageContext.request.contextPath}/DataTable">
-        <input type="submit" value="Get Data">
+        <input class="button" type="submit" value="Get Data">
     </form>
     <form action="${pageContext.request.contextPath}/GenerateWinningNumbers">
-        <input type="submit" value="Generate Winning Numbers">
+        <input class="button" type="submit" value="Generate Winning Numbers">
     </form>
     <p><%= session.getAttribute("winningnumbers") %></p>
 <a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>

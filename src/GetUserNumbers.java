@@ -21,20 +21,23 @@ public class GetUserNumbers extends HttpServlet {
         HttpSession session = request.getSession();
         EncryptionStorage es = (EncryptionStorage) session.getAttribute("es");
 
-        String data = new String();
+        ArrayList<byte[]> data = new ArrayList<>();
         try {
-            data = es.decryptData(es.bytesFileReader(
+            data = es.splitData(es.bytesFileReader(
                     "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
                             "Security\\Assignment\\CSC2031 Coursework\\" +
                             "LotteryWebApp\\" + session.getAttribute("filename") + ".txt"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String[] decryptedData = new String[data.size()];
+        try{
+            decryptedData = es.decryptData(data);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-
-        System.out.println("Data: " + data);
-        session.setAttribute("set", data);
-        System.out.println(session.getId());
+        session.setAttribute("set", decryptedData);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
         dispatcher.forward(request, response);

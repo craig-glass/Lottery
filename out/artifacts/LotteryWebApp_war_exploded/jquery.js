@@ -32,7 +32,7 @@ $(function(){
             },
             password: {
                 required: "Please provide a password",
-                pattern: "Password must be between 8 and 15 characters long and" +
+                pattern: "Password must be between 8 and 15 characters long and " +
                     "must contain at least one upper case letter, at least one " +
                     "lower case letter, and at least one digit"
             }

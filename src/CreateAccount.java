@@ -101,7 +101,7 @@ public class CreateAccount extends HttpServlet {
 
                 // display account.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                session.setAttribute("message", firstname+", you have successfully created an account");
+                request.setAttribute("message", firstname+", you have successfully created an account");
                 session.setAttribute("numberstring", "");
                 dispatcher.forward(request, response);
 
@@ -109,7 +109,7 @@ public class CreateAccount extends HttpServlet {
                 se.printStackTrace();
                 // display error.jsp page with given message if unsuccessful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                session.setAttribute("message", firstname+", this username/password combination already exists. Please try again");
+                request.setAttribute("message", firstname+", this username/password combination already exists. Please try again");
                 dispatcher.forward(request, response);
             }
             finally{
