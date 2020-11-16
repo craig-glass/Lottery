@@ -13,6 +13,8 @@ public class UserLogin extends HttpServlet {
 
     private Connection conn;
     private int attempts = 0;
+    public String filename;
+    public String file;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -111,6 +113,8 @@ public class UserLogin extends HttpServlet {
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
                                         "/admin/admin_home.jsp");
                                 session.setAttribute("admin_login", dbusername);
+                                session.setAttribute("winningnumbers", "");
+                                request.setAttribute("message", "Successfully logged in!");
                                 dispatcher.forward(request, response);
                             }else if(dbrole.equals("public")){
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
@@ -119,6 +123,9 @@ public class UserLogin extends HttpServlet {
                                 session.setAttribute("numberstring", "");
                                 session.setAttribute("public_login", dbusername);
                                 session.setAttribute("password", dbpassword);
+                                filename = (String) session.getAttribute("password");
+                                file = filename.substring(0, 20);
+                                session.setAttribute("filename", file);
                                 dispatcher.forward(request, response);
                             }
                         }

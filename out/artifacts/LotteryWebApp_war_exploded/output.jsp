@@ -19,7 +19,7 @@
 </div>
 
 <div>
-    <a href="index.jsp">Back To Login Page</a>
+    <a href="${pageContext.request.contextPath}/admin/admin_home.jsp">Go Back</a>
 </div>
 
 </body>

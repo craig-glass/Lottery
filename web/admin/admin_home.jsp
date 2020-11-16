@@ -5,13 +5,19 @@
   Time: 5:07 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Admin Home Page</title>
-    <link href="static/style.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <% if(request.getAttribute("message") == null) {
+        request.setAttribute("message", "Click Button To Generate Winning Numbers");
+    }
+    %>
+
+    <p><%= request.getAttribute("message") %></p>
     <form action="${pageContext.request.contextPath}/DataTable">
         <input class="button" type="submit" value="Get Data">
     </form>

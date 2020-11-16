@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 public class AddUserNumbers extends HttpServlet {
 
     EncryptionStorage es = new EncryptionStorage();
-    public String filename;
-    public String file;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,15 +27,10 @@ public class AddUserNumbers extends HttpServlet {
         sb.append(request.getParameter("numbers5")).append("'");
 
 
-
-        filename = (String) session.getAttribute("password");
-        file = filename.substring(0, 20);
-        session.setAttribute("filename", file);
-
         try {
             es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
                     "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +
-                    "LotteryWebApp\\" + file + ".txt", es.encryptData(sb.toString()));
+                    "LotteryWebApp\\" + session.getAttribute("filename") + ".txt", es.encryptData(sb.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +39,7 @@ public class AddUserNumbers extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
         session.setAttribute("numberstring", sb);
-        session.setAttribute("message", "");
+        request.setAttribute("message", "Numbers added to draw!");
         dispatcher.forward(request, response);
     }
 

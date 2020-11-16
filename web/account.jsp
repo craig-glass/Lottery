@@ -1,6 +1,4 @@
-<%@ page import="java.util.Arrays" %>
-<%@ page import="java.lang.reflect.Array" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Account</title>
@@ -12,8 +10,13 @@
 </head>
 <body>
 <h1>User Account</h1>
-
-<p><%= request.getAttribute("message") %></p>
+<%
+    if(request.getAttribute("message") != null){
+%>
+        <p><%= request.getAttribute("message") %></p>
+<%
+    }
+%>
 <table>
     <tr>
         <td>Name: </td>
@@ -32,6 +35,7 @@
         <td><%= session.getAttribute("username") %></td>
     </tr>
 </table>
+<br>
 
 <form action="AddUserNumbers" method="post" name="choosenumbers">
     <label for="numbers">Enter 6 numbers between 0 and 60:</label><br><br>
@@ -53,7 +57,6 @@
     <input class="button" type="submit" value="Get Draws">
 </form>
 
-
 <% String[] numSet = (String[]) session.getAttribute("set"); %>
 <% if(numSet != null){ %>
 
@@ -71,11 +74,20 @@
     }
 %>
 <br>
+<form action="CheckNumbers" method="post">
+    <input class="button" type="submit" name="checkNumbers_btn" value="Check Numbers">
+</form>
+<%
+    if(session.getAttribute("winner") != null){
+%>
+        <p><%= session.getAttribute("winner") %></p>
+<%
+    }
+%>
 
 <form action="LogOut">
     <input class="button" type="submit" value="Log Out">
 </form><br>
-<a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>
 
 <script>
     function generateNumbers(){

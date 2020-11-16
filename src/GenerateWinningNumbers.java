@@ -51,7 +51,7 @@ public class GenerateWinningNumbers extends HttpServlet {
             conn.close();
 
             session.setAttribute("winningnumbers", winningNumbers);
-
+            request.setAttribute("message", "Winning Number Created!");
             RequestDispatcher dispatcher = request.getRequestDispatcher("admin/admin_home.jsp");
             dispatcher.forward(request, response);
         }
@@ -59,7 +59,7 @@ public class GenerateWinningNumbers extends HttpServlet {
             se.printStackTrace();
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-            session.setAttribute("message", "Database error");
+            session.setAttribute("message", "Database error!");
             dispatcher.forward(request, response);
         }
 
