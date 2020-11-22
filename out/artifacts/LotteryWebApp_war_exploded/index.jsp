@@ -29,8 +29,7 @@
             }
         }
     }
-    HttpSession oldSession = request.getSession(false);
-    oldSession.invalidate();
+
 %>
   <h1>Home Page</h1>
 

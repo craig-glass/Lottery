@@ -58,6 +58,10 @@ public class CheckNumbers extends HttpServlet {
 
                                 }
                             }
+
+                            conn.close();
+                            stmt.close();
+
                             response.sendRedirect(request.getContextPath() + "/account.jsp");
                         }
 
@@ -65,15 +69,11 @@ public class CheckNumbers extends HttpServlet {
                     if(noWin){
                         session.setAttribute("winner", "Sorry no winning numbers this time!");
                         response.sendRedirect(request.getContextPath() + "/account.jsp");
+                        conn.close();
+                        stmt.close();
                     }
 
                 }
-
-                conn.close();
-                stmt.close();
-
-
-
 
 
             }catch(Exception e){

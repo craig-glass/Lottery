@@ -28,12 +28,12 @@ public class GenerateWinningNumbers extends HttpServlet {
         HttpSession session = request.getSession();
         Random rand = new Random();
 
-        String winningNumbers = "'" + rand.nextInt(61) + ", " +
+        String winningNumbers = rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
-                                rand.nextInt(61) + "'";
+                                rand.nextInt(61);
 
         try{
             //create database connection
@@ -41,13 +41,13 @@ public class GenerateWinningNumbers extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             // create sql query
-            String query = "INSERT INTO winningNumbers (Winningnumber)"
-                    + "VALUES (?)";
+            String query = "UPDATE winningNumbers SET Winningnumber="
+                    + " (?)";
             stmt = conn.prepareStatement(query);
             stmt.setString(1, winningNumbers);
 
             // execute query and close connection
-            stmt.execute();
+            stmt.executeUpdate();
             conn.close();
 
             session.setAttribute("winningnumbers", winningNumbers);

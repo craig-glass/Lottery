@@ -112,6 +112,7 @@ public class UserLogin extends HttpServlet {
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
                                         "/admin/admin_home.jsp");
                                 session.setAttribute("admin_login", dbusername);
+                                session.setAttribute("role", "admin");
                                 session.setAttribute("winningnumbers", "");
                                 request.setAttribute("message", "Successfully logged in!");
                                 dispatcher.forward(request, response);
@@ -120,6 +121,7 @@ public class UserLogin extends HttpServlet {
                                         "/account.jsp");
                                 request.setAttribute("message", "Successfully logged in!");
                                 session.setAttribute("numberstring", "");
+                                session.setAttribute("role", "public");
                                 session.setAttribute("public_login", dbusername);
                                 session.setAttribute("password", dbpassword);
                                 filename = (String) session.getAttribute("password");

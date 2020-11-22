@@ -19,7 +19,7 @@ public class PathTraversalFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         System.out.println("Reached filter");
-        if(session == null){
+        if(session == null || session.getAttribute("role") == "public"){
             System.out.println("Reached filter if block");
             this.context.log("Unauthorized access request");
             res.sendRedirect(req.getContextPath() + "/index.jsp");

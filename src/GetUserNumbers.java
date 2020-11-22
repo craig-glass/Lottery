@@ -1,4 +1,3 @@
-import javax.crypto.Cipher;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -6,10 +5,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.security.KeyPair;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @WebServlet("/GetUserNumbers")
@@ -21,6 +19,8 @@ public class GetUserNumbers extends HttpServlet {
         HttpSession session = request.getSession();
         EncryptionStorage es = (EncryptionStorage) session.getAttribute("es");
 
+
+        System.out.println("Encryption Storage = " + es);
         ArrayList<byte[]> data = new ArrayList<>();
 
         System.out.println("Arraylist data 'getUserNumbers: " + data);
