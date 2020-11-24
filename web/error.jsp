@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Error</title>
+    <link href="static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
    <h1>Error Page</h1>

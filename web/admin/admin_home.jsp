@@ -12,12 +12,32 @@
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <% if(request.getAttribute("message") == null) {
-        request.setAttribute("message", "Click Button To Generate Winning Numbers");
-    }
-    %>
+    <h1>Admin Home Page</h1>
 
-    <p><%= request.getAttribute("message") %></p>
+    <% if(request.getAttribute("message") != null){ %>
+        <p style="color: darkgreen"><%= request.getAttribute("message") %></p>
+    <% } %>
+
+    <table>
+        <tr>
+            <td>Name: </td>
+            <td><%= session.getAttribute("firstname") + " " + session.getAttribute("lastname") %></td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><%= session.getAttribute("email") %></td>
+        </tr>
+        <tr>
+            <td>Phone: </td>
+            <td><%= session.getAttribute("telephone") %></td>
+        </tr>
+        <tr>
+            <td>User Name: </td>
+            <td><%= session.getAttribute("username") %></td>
+        </tr>
+    </table>
+    <br>
+
     <form action="${pageContext.request.contextPath}/DataTable">
         <input class="button" type="submit" value="Get Data">
     </form>

@@ -194,7 +194,7 @@ public class UserLogin extends HttpServlet {
                 se.printStackTrace();
                 // display error.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
-                request.setAttribute("message", "Database Error, Please try again");
+                request.setAttribute("message", "Error connecting to database, please try again");
                 dispatcher.forward(request, response);
             } finally {
                 try {

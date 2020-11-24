@@ -1,4 +1,7 @@
-
+body {
+    padding: 30px 45px;
+    background-color: floralwhite;
+}
 label.error {
     color: red;
 }
@@ -8,8 +11,12 @@ h1 {
 #registration {
     margin-bottom: 50px;
 }
-input, button {
+input {
+    font-weight: lighter;
     background-color: aliceblue;
+}
+.button {
+    background-color:bisque;
 }
 .button:hover {
     cursor: pointer;
