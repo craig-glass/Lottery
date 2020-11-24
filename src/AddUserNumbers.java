@@ -19,7 +19,7 @@ public class AddUserNumbers extends HttpServlet {
 
         // get parameter data from html form
         StringBuilder sb = new StringBuilder();
-        sb.append(request.getParameter("numbers")).append(", ");
+        sb.append(request.getParameter("numbers0")).append(", ");
         sb.append(request.getParameter("numbers1")).append(", ");
         sb.append(request.getParameter("numbers2")).append(", ");
         sb.append(request.getParameter("numbers3")).append(", ");

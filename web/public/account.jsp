@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Account</title>
-    <link href="static/style.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.js"></script>
@@ -13,7 +13,7 @@
 <%
     if(request.getAttribute("message") != null){
 %>
-        <p style="color: darkgreen"><%= request.getAttribute("message") %></p>
+        <p class="green"><%= request.getAttribute("message") %></p>
 <%
     }
 %>
@@ -39,8 +39,8 @@
 
 <form action="${pageContext.request.contextPath}/AddUserNumbers" method="post" name="choosenumbers">
     <label>Enter 6 numbers between 0 and 60:</label><br><br>
-    <label for="numbers">No 1: </label>
-    <input type="text" id="numbers" name="numbers"><br>
+    <label for="numbers0">No 1: </label>
+    <input type="text" id="numbers0" name="numbers0"><br>
     <label for="numbers1">No 2: </label>
     <input type="text" id="numbers1" name="numbers1"><br>
     <label for="numbers2">No 3: </label>
@@ -56,7 +56,7 @@
 </form>
 <button class="button" onclick="generateNumbers()">Generate Numbers</button>
 <% if(session.getAttribute("numberstring") != null){ %>
-    <p style="color: darkgreen"><%= session.getAttribute("numberstring") %></p>
+    <p class="green"><%= session.getAttribute("numberstring") %></p>
 <% } %>
 
 <form action="${pageContext.request.contextPath}/GetUserNumbers" method="post">
@@ -71,7 +71,7 @@
 
 <% if(numSet != null){ %>
 
-<table style="color: darkblue">
+<table style="color: blue">
     <% for(String nums : numSet){ %>
         <tr>
             <td>
@@ -104,18 +104,12 @@
 
 <script>
     function generateNumbers(){
-        document.getElementById("numbers")
-            .value = (Math.floor(Math.random() * 60)).toString();
-        document.getElementById("numbers1")
-            .value = (Math.floor(Math.random() * 60)).toString();
-        document.getElementById("numbers2")
-            .value = (Math.floor(Math.random() * 60)).toString();
-        document.getElementById("numbers3")
-            .value = (Math.floor(Math.random() * 60)).toString();
-        document.getElementById("numbers4")
-            .value = (Math.floor(Math.random() * 60)).toString();
-        document.getElementById("numbers5")
-            .value = (Math.floor(Math.random() * 60)).toString();
+        let array = new Uint8Array(6);
+        window.crypto.getRandomValues(array);
+        for (let i = 0; i < array.length; i++){
+            document.getElementById("numbers" + i)
+                .value = (Math.floor((array[i]/ 255) * 60)).toString();
+        }
     }
 </script>
 </body>

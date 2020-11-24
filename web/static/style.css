@@ -1,17 +1,21 @@
 body {
     padding: 30px 45px;
-    background-color: floralwhite;
+    background-color: beige;
 }
 label.error {
     color: red;
 }
 h1 {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 #registration {
     margin-bottom: 50px;
 }
 input {
+    font-weight: lighter;
+    background-color: aliceblue;
+}
+select {
     font-weight: lighter;
     background-color: aliceblue;
 }
@@ -21,4 +25,6 @@ input {
 .button:hover {
     cursor: pointer;
 }
-
+.green {
+    color: green;
+}

@@ -15,7 +15,7 @@
     <h1>Admin Home Page</h1>
 
     <% if(request.getAttribute("message") != null){ %>
-        <p style="color: darkgreen"><%= request.getAttribute("message") %></p>
+        <p class="green"><%= request.getAttribute("message") %></p>
     <% } %>
 
     <table>

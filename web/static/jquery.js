@@ -16,6 +16,9 @@ $(function(){
             password: {
                 required: true,
                 pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{7,15}$"
+            },
+            role_form: {
+                required: true
             }
         },
         messages: {
@@ -35,6 +38,9 @@ $(function(){
                 pattern: "Password must be between 8 and 15 characters long and " +
                     "must contain at least one upper case letter, at least one " +
                     "lower case letter, and at least one digit"
+            },
+            role_form: {
+                required: "Please select role"
             }
         }
 
@@ -46,12 +52,18 @@ $(function(){
             username1: "required",
             password1: {
                 required: true,
+            },
+            role_form: {
+                required: true
             }
         },
         messages: {
             username1: "Please enter your user name",
             password1: {
                 required: "Please provide your password"
+            },
+            role_form: {
+                required: "Please select role"
             }
         }
 
@@ -60,7 +72,7 @@ $(function(){
 $(function(){
     $("form[name='choosenumbers']").validate({
         rules:{
-            numbers: {
+            numbers0: {
                 required: true,
                 pattern: "([0-9]|[1-5][0-9]|60)"
             },
@@ -86,7 +98,7 @@ $(function(){
             },
         },
         messages: {
-            numbers: {
+            numbers0: {
                 required: "Please enter a number",
                 pattern: "Please enter a number between 0 and 60"
             },

@@ -52,7 +52,7 @@
 
   <% if(request.getAttribute("message") != null){
   %>
-        <p><%= request.getAttribute("message") %></p>
+        <p class="green"><%= request.getAttribute("message") %></p>
   <%
       }
   %>
@@ -112,12 +112,17 @@
                 </tr>
                 <tr>
                     <td>
+                        <label>Role: </label>
+                    </td>
+                    <td>
                         <select name="role_form">
                             <option value="" selected="selected"> - Select Role - </option>
                             <option value="admin">Admin</option>
                             <option value="public">Public</option>
                         </select>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <input class="button" type="submit" name="register_btn" value="Submit">
                     </td>
@@ -147,12 +152,17 @@
                 </tr>
                 <tr>
                     <td>
+                        <label>Role: </label>
+                    </td>
+                    <td>
                         <select name="role_form">
                             <option value="" selected="selected"> - Select Role - </option>
                             <option value="admin">Admin</option>
                             <option value="public">Public</option>
                         </select>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <input class="button" type="submit" name="login_btn" value="login">
                     </td>

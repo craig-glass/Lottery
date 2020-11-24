@@ -34,7 +34,7 @@ public class ServerFilter implements javax.servlet.Filter {
         }
         if(invalid){
             try{
-                req.setAttribute("message", "Error! Suspicious characters are being used!");
+                req.setAttribute("message", "Error! Invalid input!");
                 req.getRequestDispatcher("/error.jsp").forward(req, resp);
             }
             catch(Exception ex){

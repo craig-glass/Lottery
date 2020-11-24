@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Output</title>
-    <link href="static/style.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -18,8 +18,9 @@
 <div>
     <%= request.getAttribute("data") %>
 </div>
-<br>
+
 <div>
+    <br>
     <a href="${pageContext.request.contextPath}/admin/admin_home.jsp">Go Back</a>
 </div>
 
