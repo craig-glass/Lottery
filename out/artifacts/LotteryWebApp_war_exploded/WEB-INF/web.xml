@@ -25,6 +25,16 @@
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
 
+    <display-name>PathTraversalFilterPublic</display-name>
+    <filter>
+        <filter-name>PathTraversalFilterPublic</filter-name>
+        <filter-class>PathTraversalFilterPublic</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PathTraversalFilterPublic</filter-name>
+        <url-pattern>/public/*</url-pattern>
+    </filter-mapping>
+
     <listener>
         <listener-class>
             ContextListener

@@ -1,3 +1,4 @@
+import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,38 +41,51 @@ public class CheckNumbers extends HttpServlet {
 
                     boolean noWin = true;
                     String[] numbers = (String[]) session.getAttribute("set");
-                    for(String number : numbers){
-                        System.out.println(number);
-                        if(number.equals(winningNumber)){
-                            noWin = false;
-                            session.setAttribute("winner", "Winner!");
+                    if(numbers != null){
+                        for(String number : numbers){
+                            System.out.println(number);
+                            if(number.equals(winningNumber)){
+                                noWin = false;
+                                session.setAttribute("winner", "Winner! " + number + "!");
 
-                            File dir = new File("C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
-                                    "Security\\Assignment\\CSC2031 Coursework\\" +
-                                    "LotteryWebApp\\EncryptedFiles");
+                                File dir = new File("C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
+                                        "Security\\Assignment\\CSC2031 Coursework\\" +
+                                        "LotteryWebApp\\EncryptedFiles");
 
-                            if(dir.exists()){
-                                for(File file : dir.listFiles()){
-                                    if(!file.isDirectory()){
-                                        file.delete();
+                                if(dir.exists()){
+                                    for(File file : dir.listFiles()){
+                                        if(!file.isDirectory()){
+                                            file.delete();
+                                        }
+
                                     }
-
                                 }
+
+                                conn.close();
+                                stmt.close();
+
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
+                                dispatcher.forward(request, response);
                             }
 
+                        }
+                        if(noWin){
                             conn.close();
                             stmt.close();
 
-                            response.sendRedirect(request.getContextPath() + "/account.jsp");
+                            session.setAttribute("winner", "Sorry no winning numbers this time!");
+                            RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
+                            dispatcher.forward(request, response);
                         }
-
-                    }
-                    if(noWin){
-                        session.setAttribute("winner", "Sorry no winning numbers this time!");
-                        response.sendRedirect(request.getContextPath() + "/account.jsp");
+                    }else{
                         conn.close();
                         stmt.close();
+
+                        session.setAttribute("winner", "Please add numbers to draw!");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
+                        dispatcher.forward(request, response);
                     }
+
 
                 }
 

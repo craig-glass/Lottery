@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "PathTraversalFilter")
-public class PathTraversalFilter implements Filter {
+@WebFilter(filterName = "PathTraversalFilterPublic")
+public class PathTraversalFilterPublic implements Filter {
 
     private ServletContext context;
 
@@ -19,16 +19,14 @@ public class PathTraversalFilter implements Filter {
         HttpSession session = req.getSession(false);
 
         System.out.println("Reached filter");
-        if(session == null || session.getAttribute("role") == "public" ||
-                session.getAttribute("username") == null){
+        if(session == null || session.getAttribute("role") == "admin" ||
+        session.getAttribute("username") == null){
             System.out.println("Reached filter if block");
             this.context.log("Unauthorized access request");
             res.sendRedirect(req.getContextPath() + "/index.jsp");
         }else{
             chain.doFilter(request, response);
         }
-
-
     }
 
     public void init(FilterConfig config) throws ServletException {

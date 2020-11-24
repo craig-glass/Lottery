@@ -62,7 +62,7 @@ public class DataTable extends HttpServlet {
             conn.close();
 
             // display output.jsp page with given content above if successful
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/output.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/output.jsp");
             request.setAttribute("data", content);
             dispatcher.forward(request, response);
 
@@ -80,6 +80,7 @@ public class DataTable extends HttpServlet {
                 if (stmt != null)
                     stmt.close();
             } catch (SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if (conn != null)

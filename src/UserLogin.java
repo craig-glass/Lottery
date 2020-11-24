@@ -118,7 +118,7 @@ public class UserLogin extends HttpServlet {
                                 dispatcher.forward(request, response);
                             }else if(dbrole.equals("public")){
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
-                                        "/account.jsp");
+                                        "/public/account.jsp");
                                 request.setAttribute("message", "Successfully logged in!");
                                 session.setAttribute("numberstring", "");
                                 session.setAttribute("role", "public");

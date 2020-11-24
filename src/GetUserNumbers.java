@@ -47,8 +47,20 @@ public class GetUserNumbers extends HttpServlet {
                 + Arrays.toString(decryptedData));
         session.setAttribute("set", decryptedData);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/account.jsp");
-        dispatcher.forward(request, response);
+        if(decryptedData.length == 0){
+            request.setAttribute("warning", "No numbers added to draw!");
+            session.setAttribute("winner", null);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
+            dispatcher.forward(request, response);
+        }else{
+            session.setAttribute("numberstring", "");
+            session.setAttribute("winner", null);
+            request.setAttribute("message", "");
+            request.setAttribute("warning", null);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
+            dispatcher.forward(request, response);
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

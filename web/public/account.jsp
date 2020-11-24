@@ -37,55 +37,68 @@
 </table>
 <br>
 
-<form action="AddUserNumbers" method="post" name="choosenumbers">
-    <label for="numbers">Enter 6 numbers between 0 and 60:</label><br><br>
+<form action="${pageContext.request.contextPath}/AddUserNumbers" method="post" name="choosenumbers">
+    <label>Enter 6 numbers between 0 and 60:</label><br><br>
+    <label for="numbers">No 1: </label>
     <input type="text" id="numbers" name="numbers"><br>
+    <label for="numbers1">No 2: </label>
     <input type="text" id="numbers1" name="numbers1"><br>
+    <label for="numbers2">No 3: </label>
     <input type="text" id="numbers2" name="numbers2"><br>
+    <label for="numbers3">No 4: </label>
     <input type="text" id="numbers3" name="numbers3"><br>
+    <label for="numbers4">No 5: </label>
     <input type="text" id="numbers4" name="numbers4"><br>
-    <input type="text" id="numbers5" name="numbers5"><br>
+    <label for="numbers5">No 6: </label>
+    <input type="text" id="numbers5" name="numbers5"><br><br>
     <input class="button" type="submit" value="Add To Draw">
 
 </form>
 <button class="button" onclick="generateNumbers()">Generate Numbers</button>
-    <p><%= session.getAttribute("numberstring") %></p>
+<% if(session.getAttribute("numberstring") != null){ %>
+    <p style="color: green"><%= session.getAttribute("numberstring") %></p>
+<% } %>
 
-
-
-<form action="GetUserNumbers" method="post">
+<form action="${pageContext.request.contextPath}/GetUserNumbers" method="post">
     <input class="button" type="submit" value="Get Draws">
 </form>
 
 <% String[] numSet = (String[]) session.getAttribute("set"); %>
+
+<% if(request.getAttribute("warning") != null){ %>
+    <p style="color: red"><%= request.getAttribute("warning") %></p>
+<% } %>
+
 <% if(numSet != null){ %>
 
-<% for(String nums : numSet){ %>
+<table style="color: blue">
+    <% for(String nums : numSet){ %>
+        <tr>
+            <td>
+                <%= nums %>
+            </td>
+        </tr>
+    <%
+        }
+    %>
+</table>
+<%
+    }
+%>
 
-<tr>
-    <td>
-        <%= nums %>
-    </td>
-</tr><br>
-<%
-    }
-%>
-<%
-    }
-%>
 <br>
-<form action="CheckNumbers" method="post">
+<form action="${pageContext.request.contextPath}/CheckNumbers" method="post">
     <input class="button" type="submit" name="checkNumbers_btn" value="Check Numbers">
 </form>
 <%
     if(session.getAttribute("winner") != null){
 %>
-        <p><%= session.getAttribute("winner") %></p>
+<p style="font-size: large; color: purple"><strong><%= session.getAttribute("winner") %></strong></p>
 <%
     }
 %>
 
-<form action="LogOut">
+<form action="${pageContext.request.contextPath}/LogOut">
     <input class="button" type="submit" value="Log Out">
 </form><br>
 

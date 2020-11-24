@@ -19,8 +19,8 @@ public class ServerFilter implements javax.servlet.Filter {
                 String key = (String) iter.next();
                 String[] values = (String[]) params.get(key);
 
-                for(int i = 0; i < values.length; i++){
-                    if(checkChars(values[i])){
+                for (String value : values) {
+                    if (checkChars(value)) {
                         invalid = true;
                         break;
                     }
@@ -34,7 +34,7 @@ public class ServerFilter implements javax.servlet.Filter {
         }
         if(invalid){
             try{
-                req.setAttribute("message", "Error");
+                req.setAttribute("message", "Error! Suspicious characters are being used!");
                 req.getRequestDispatcher("/error.jsp").forward(req, resp);
             }
             catch(Exception ex){
@@ -52,8 +52,8 @@ public class ServerFilter implements javax.servlet.Filter {
                 "<", ">", "!", "{", "}", "insert", "into", "where", "script",
                 "delete", "input"
         };
-        for(int i = 0; i < badChars.length; i++){
-            if(value.indexOf(badChars[i]) >= 0){
+        for (String badChar : badChars) {
+            if (value.contains(badChar)) {
                 invalid = true;
                 break;
             }

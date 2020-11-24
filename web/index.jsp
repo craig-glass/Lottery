@@ -30,6 +30,23 @@
         }
     }
 
+    session.removeAttribute("firstname");
+    session.removeAttribute("lastname");
+    session.removeAttribute("email");
+    session.removeAttribute("username");
+    session.removeAttribute("password");
+    session.removeAttribute("set");
+    session.removeAttribute("pass");
+    session.removeAttribute("telephone");
+    session.removeAttribute("public_login");
+    session.removeAttribute("filename");
+    session.removeAttribute("winner");
+    session.removeAttribute("numberstring");
+
+    if(session.isNew()){
+        HttpSession oldSession = request.getSession(false);
+        oldSession.invalidate();
+    }
 %>
   <h1>Home Page</h1>
 
