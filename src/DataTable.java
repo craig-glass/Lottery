@@ -44,7 +44,7 @@ public class DataTable extends HttpServlet {
 
 
             // create HTML table text
-            String content = "<table style='background-color: aliceblue' border='1' cellspacing='2' cellpadding='2' width='100%' align='left'>" +
+            String content = "<table class='tableStyle rowStyle'>" +
                     "<tr><th>First name</th><th>Last name</th><th>Email</th><th>Phone number</th><th>Username</th></tr>";
 
             // add HTML table data using data from database

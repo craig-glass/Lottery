@@ -12,16 +12,21 @@
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header>
+    <h1>User Details</h1>
+    <a href="${pageContext.request.contextPath}/LogOut">Log Out</a>
+</header>
+<div class="container">
 
-<h1>User Details</h1>
 
-<div>
-    <%= request.getAttribute("data") %>
-</div>
+    <div>
+        <%= request.getAttribute("data") %>
+    </div>
 
-<div>
-    <br>
-    <a href="${pageContext.request.contextPath}/admin/admin_home.jsp">Go Back</a>
+    <div id="dataTableBackLink">
+        <a href="${pageContext.request.contextPath}/admin/admin_home.jsp">Go Back</a>
+    </div>
+
 </div>
 
 </body>

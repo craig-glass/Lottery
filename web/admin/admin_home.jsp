@@ -12,39 +12,55 @@
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header>
     <h1>Admin Home Page</h1>
+    <a href="${pageContext.request.contextPath}/LogOut">Log Out</a>
+</header>
+<div class="container">
 
-    <% if(request.getAttribute("message") != null){ %>
-        <p class="green"><%= request.getAttribute("message") %></p>
-    <% } %>
+    <div class="flexContent">
+        <table class="tableStyle rowStyle">
+            <tr>
+                <td>Name: </td>
+                <td><%= session.getAttribute("firstname") + " " + session.getAttribute("lastname") %></td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td><%= session.getAttribute("email") %></td>
+            </tr>
+            <tr>
+                <td>Phone: </td>
+                <td><%= session.getAttribute("telephone") %></td>
+            </tr>
+            <tr>
+                <td>User Name: </td>
+                <td><%= session.getAttribute("username") %></td>
+            </tr>
+        </table>
+        <div class="message">
+            <% if(request.getAttribute("message") != null){ %>
+            <p class="green"><%= request.getAttribute("message") %></p>
+            <% } %>
+        </div>
 
-    <table>
-        <tr>
-            <td>Name: </td>
-            <td><%= session.getAttribute("firstname") + " " + session.getAttribute("lastname") %></td>
-        </tr>
-        <tr>
-            <td>Email: </td>
-            <td><%= session.getAttribute("email") %></td>
-        </tr>
-        <tr>
-            <td>Phone: </td>
-            <td><%= session.getAttribute("telephone") %></td>
-        </tr>
-        <tr>
-            <td>User Name: </td>
-            <td><%= session.getAttribute("username") %></td>
-        </tr>
-    </table>
-    <br>
+    </div>
 
-    <form action="${pageContext.request.contextPath}/DataTable">
-        <input class="button" type="submit" value="Get Data">
-    </form>
-    <form action="${pageContext.request.contextPath}/GenerateWinningNumbers">
-        <input class="button" type="submit" value="Generate Winning Numbers">
-    </form>
-    <p><%= session.getAttribute("winningnumbers") %></p>
-<a href="${pageContext.request.contextPath}/index.jsp">Back To Login Page</a>
+    <div id="adminButtons">
+        <div id="generateWinners">
+            <form action="${pageContext.request.contextPath}/GenerateWinningNumbers">
+                <input class="button" type="submit" value="Generate Winning Numbers">
+            </form>
+            <p style="color: blue"><%= session.getAttribute("winningnumbers") %></p>
+        </div>
+        <div id="getData">
+            <form action="${pageContext.request.contextPath}/DataTable">
+                <input class="button" type="submit" value="Get Data">
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
 </body>
 </html>

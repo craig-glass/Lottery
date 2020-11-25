@@ -48,129 +48,136 @@
         oldSession.invalidate();
     }
 %>
-  <h1>Home Page</h1>
+<header>
+    <h1>Home Page</h1>
+</header>
+<div class="container">
 
-  <% if(request.getAttribute("message") != null){
-  %>
-        <p class="green"><%= request.getAttribute("message") %></p>
-  <%
-      }
-  %>
 
-<div id="container">
-    <div id="registration">
-        <h2>Registration Form</h2>
-        <form action="CreateAccount" method="post" class="error" name="createaccount">
-            <table>
-                <tr>
-                    <td>
-                        <label for="firstname">First name:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="firstname" name="firstname">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="lastname">Last name:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="lastname" name="lastname">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="email">Email:</label>
-                    </td>
-                    <td>
-                        <input type="email" id="email" name="email">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="telephone">Phone Number:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="telephone" name="telephone">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="username">Username:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="username" name="username">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="password">Password:</label>
-                    </td>
-                    <td>
-                        <input type="password" id="password" name="password">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Role: </label>
-                    </td>
-                    <td>
-                        <select name="role_form">
-                            <option value="" selected="selected"> - Select Role - </option>
-                            <option value="admin">Admin</option>
-                            <option value="public">Public</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input class="button" type="submit" name="register_btn" value="Submit">
-                    </td>
-                </tr>
-            </table>
-        </form>
+
+    <% if(request.getAttribute("message") != null){
+    %>
+    <p class="green"><%= request.getAttribute("message") %></p>
+    <%
+        }
+    %>
+
+    <div id="container">
+        <div id="registration">
+            <h2>Registration Form</h2>
+            <form action="CreateAccount" method="post" class="error" name="createaccount">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="firstname">First name:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="firstname" name="firstname">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="lastname">Last name:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="lastname" name="lastname">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email:</label>
+                        </td>
+                        <td>
+                            <input type="email" id="email" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="telephone">Phone Number:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="telephone" name="telephone">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="username">Username:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="username" name="username">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password:</label>
+                        </td>
+                        <td>
+                            <input type="password" id="password" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Role: </label>
+                        </td>
+                        <td>
+                            <select name="role_form">
+                                <option value="" selected="selected"> - Select Role - </option>
+                                <option value="admin">Admin</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" type="submit" name="register_btn" value="Submit">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="login">
+            <h2>Login Form</h2>
+            <form action="UserLogin" method="post" name="login" onsubmit="check_form()">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="username1">Username:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="username1" name="username1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password1">Password:</label>
+                        </td>
+                        <td>
+                            <input type="password" id="password1" name="password1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Role: </label>
+                        </td>
+                        <td>
+                            <select name="role_form">
+                                <option value="" selected="selected"> - Select Role - </option>
+                                <option value="admin">Admin</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" type="submit" name="login_btn" value="login">
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
     </div>
-    <div id="login">
-        <h2>Login Form</h2>
-        <form action="UserLogin" method="post" name="login" onsubmit="check_form()">
-            <table>
-                <tr>
-                    <td>
-                        <label for="username1">Username:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="username1" name="username1">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="password1">Password:</label>
-                    </td>
-                    <td>
-                        <input type="password" id="password1" name="password1">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Role: </label>
-                    </td>
-                    <td>
-                        <select name="role_form">
-                            <option value="" selected="selected"> - Select Role - </option>
-                            <option value="admin">Admin</option>
-                            <option value="public">Public</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input class="button" type="submit" name="login_btn" value="login">
-                    </td>
-                </tr>
-            </table>
 
-        </form>
-    </div>
 </div>
 
 
