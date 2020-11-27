@@ -135,9 +135,10 @@
                 </table>
             </form>
         </div>
+        <hr>
         <div id="login">
             <h2>Login Form</h2>
-            <form action="UserLogin" method="post" name="login" onsubmit="check_form()">
+            <form action="UserLogin" method="post" name="login">
                 <table>
                     <tr>
                         <td>

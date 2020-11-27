@@ -38,7 +38,7 @@ public class AddUserNumbers extends HttpServlet {
         session.setAttribute("es", es);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/public/account.jsp");
-        session.setAttribute("numberstring", sb + " added to draw!");
+        session.setAttribute("numberstring", sb + " - added to draw!");
         session.setAttribute("winner", null);
         dispatcher.forward(request, response);
     }

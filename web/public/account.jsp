@@ -71,47 +71,50 @@
             <% } %>
         </form>
     </div>
-    <div id="getDraws">
-        <form action="${pageContext.request.contextPath}/GetUserNumbers" method="post">
-            <input class="button" type="submit" value="Get Draws">
-        </form>
-        <% String[] numSet = (String[]) session.getAttribute("set"); %>
-
-        <% if(request.getAttribute("warning") != null){ %>
-        <p style="color: red"><%= request.getAttribute("warning") %></p>
-        <% } %>
-
-        <% if(numSet != null){ %>
-
-        <table style="color: blue">
-            <% for(String nums : numSet){ %>
-            <tr>
-                <td>
-                    <%= nums %>
-                </td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
-        <%
-            }
-        %>
-
-    </div>
-    <div id="checkNumLogout">
-        <div id="checkNumbers">
-            <form action="${pageContext.request.contextPath}/CheckNumbers" method="post">
-                <input class="button" type="submit" name="checkNumbers_btn" value="Check Numbers">
+    <div class="flexContentCheckNums">
+        <div id="getDraws">
+            <form action="${pageContext.request.contextPath}/GetUserNumbers" method="post">
+                <input class="button" type="submit" value="Get Draws">
             </form>
-            <%
-                if(session.getAttribute("winner") != null){
-            %>
-            <p style="font-size: large; color: darkmagenta"><strong><%= session.getAttribute("winner") %></strong></p>
+            <% String[] numSet = (String[]) session.getAttribute("set"); %>
+
+            <% if(request.getAttribute("warning") != null){ %>
+            <p style="color: red"><%= request.getAttribute("warning") %></p>
+            <% } %>
+
+            <% if(numSet != null){ %>
+
+            <table style="color: blue">
+                <% for(String nums : numSet){ %>
+                <tr>
+                    <td>
+                        <%= nums %>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
             <%
                 }
             %>
+
         </div>
+        <div id="checkNumLogout">
+            <div id="checkNumbers">
+                <form action="${pageContext.request.contextPath}/CheckNumbers" method="post">
+                    <input class="button" type="submit" name="checkNumbers_btn" value="Check Numbers">
+                </form>
+                <%
+                    if(session.getAttribute("winner") != null){
+                %>
+                <p style="font-size: large; color: darkmagenta"><strong><%= session.getAttribute("winner") %></strong></p>
+                <%
+                    }
+                %>
+            </div>
+        </div>
+
     </div>
 
 </div>

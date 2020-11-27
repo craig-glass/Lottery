@@ -129,6 +129,28 @@ public class UserLogin extends HttpServlet {
                                 session.setAttribute("filename", file);
                                 dispatcher.forward(request, response);
                             }
+                        }else{
+                            if(attempts > 2){
+                                attempts = 0;
+                            }
+                            attempts += 1;
+                            System.out.println("Attempts = " + attempts);
+                            if(attempts == 3){
+                                Cookie attempts = new Cookie("attempts", "3");
+                                response.addCookie(attempts);
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                                request.setAttribute("message", "No attempts left!!!");
+                                dispatcher.forward(request, response);
+
+                            }
+
+                            else{
+
+                                // display error.jsp page with given message if successful
+                                RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
+                                request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
+                                dispatcher.forward(request, response);
+                            }
                         }
 
                     }
