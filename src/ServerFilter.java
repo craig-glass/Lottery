@@ -1,3 +1,12 @@
+/**
+ * Checks user input for any format string attacks,
+ * cross site scripting and sql injection
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
@@ -13,6 +22,7 @@ public class ServerFilter implements javax.servlet.Filter {
         boolean invalid = false;
         Map params = req.getParameterMap();
 
+        // check user input for any bad characters
         if (params != null){
             Iterator iter = params.keySet().iterator();
             while(iter.hasNext()){
@@ -50,7 +60,7 @@ public class ServerFilter implements javax.servlet.Filter {
         boolean invalid = false;
         String[] badChars = {
                 "<", ">", "!", "{", "}", "insert", "into", "where", "script",
-                "delete", "input"
+                "delete", "input", "'", "=", ";"
         };
         for (String badChar : badChars) {
             if (value.contains(badChar)) {

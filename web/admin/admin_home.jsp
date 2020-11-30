@@ -1,9 +1,9 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: cglas
-  Date: 11/5/2020
-  Time: 5:07 PM
-  To change this template use File | Settings | File Templates.
+ * Home page for admin user
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -57,8 +57,6 @@
                 <input class="button" type="submit" value="Get Data">
             </form>
         </div>
-
-
     </div>
 </div>
 

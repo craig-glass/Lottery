@@ -1,3 +1,11 @@
+/**
+ * Prevents unauthorised access to accounts page
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +26,7 @@ public class PathTraversalFilterPublic implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
 
-        System.out.println("Reached filter");
+        // prevent access to accounts page by any unauthorised users
         if(session == null || session.getAttribute("role") == "admin" ||
         session.getAttribute("username") == null){
             System.out.println("Reached filter if block");

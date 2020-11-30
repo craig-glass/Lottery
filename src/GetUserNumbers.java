@@ -1,3 +1,12 @@
+/**
+ * Retrieves the user's draws from the encrypted file
+ * and decrypts them
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +28,8 @@ public class GetUserNumbers extends HttpServlet {
         HttpSession session = request.getSession();
         EncryptionStorage es = (EncryptionStorage) session.getAttribute("es");
 
-
-        System.out.println("Encryption Storage = " + es);
+        // read data from file and place data in arraylist
         ArrayList<byte[]> data = new ArrayList<>();
-
-        System.out.println("Arraylist data 'getUserNumbers: " + data);
         try {
             data = es.splitData(es.bytesFileReader(
                     "C:\\Users\\cglas\\ComputerScience\\Stage_2\\" +
@@ -33,20 +39,18 @@ public class GetUserNumbers extends HttpServlet {
             e.printStackTrace();
         }
 
-
-        System.out.println("Filename = " + session.getAttribute("filename"));
+        // stored data in string array
         String[] decryptedData = new String[data.size()];
-        System.out.println("Decrypted data array 'getUserNumbers': " + Arrays.toString(decryptedData));
         try{
             decryptedData = es.decryptData(data);
         }catch(Exception e){
             e.printStackTrace();
         }
 
-        System.out.println("Decrypted data array 'getUserNumbers': "
-                + Arrays.toString(decryptedData));
+
         session.setAttribute("set", decryptedData);
 
+        // check if any numbers are added to draw
         if(decryptedData.length == 0){
             request.setAttribute("warning", "No numbers added to draw!");
             session.setAttribute("winner", null);

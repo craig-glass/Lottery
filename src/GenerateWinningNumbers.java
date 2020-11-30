@@ -1,3 +1,12 @@
+/**
+ * Generates a random draw and updates the winning numbers in
+ * the database
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,11 +32,12 @@ public class GenerateWinningNumbers extends HttpServlet {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String USER = "user";
         String PASS = "password";
-        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
+        String DB_URL = "jdbc:mysql://db:3306/lottery";
 
         HttpSession session = request.getSession();
         Random rand = new Random();
 
+        // generates 6 random numbers
         String winningNumbers = rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
                                 rand.nextInt(61) + ", " +
@@ -50,6 +60,7 @@ public class GenerateWinningNumbers extends HttpServlet {
             stmt.executeUpdate();
             conn.close();
 
+            // set winning numbers and set it a message
             session.setAttribute("winningnumbers", winningNumbers);
             request.setAttribute("message", "Winning Number Created!");
             RequestDispatcher dispatcher = request.getRequestDispatcher("admin/admin_home.jsp");
@@ -58,6 +69,7 @@ public class GenerateWinningNumbers extends HttpServlet {
         catch(Exception se){
             se.printStackTrace();
 
+            // redirect to error page
             RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
             session.setAttribute("message", "Database error!");
             dispatcher.forward(request, response);

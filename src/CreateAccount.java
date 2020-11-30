@@ -1,3 +1,12 @@
+/**
+ * Creates a user account, stores details in the database,
+ * and sets session attributes
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,18 +38,9 @@ public class CreateAccount extends HttpServlet {
         HttpSession session = request.getSession();
 
 
+        // URL to connect to database
+        String DB_URL = "jdbc:mysql://db:3306/lottery";
 
-        // URLs to connect to database depending on your development approach
-        // (NOTE: please change to option 1 when submitting)
-
-        // 1. use this when running everything in Docker using docker-compose
-        // String DB_URL = "jdbc:mysql://db:3306/lottery";
-
-        // 2. use this when running tomcat server locally on your machine and mysql database server in Docker
-        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
-
-        // 3. use this when running tomcat and mysql database servers on your machine
-        //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
 
         // check register button has been pressed
         if(request.getParameter("register_btn") != null){
@@ -63,6 +63,7 @@ public class CreateAccount extends HttpServlet {
 
             byte[] salt = getSalt();
 
+            // create hashed password
             try {
                 password = GeneratePassword(request.getParameter("password"),salt);
                 session.setAttribute("password", password);
@@ -134,21 +135,30 @@ public class CreateAccount extends HttpServlet {
 
     }
 
-    // generate salt
+    /**
+     * Create salt
+     * @return byte[] 'salt'
+     */
     public static byte[] getSalt(){
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         return salt;
     }
-    // generate hashed password
+
+    /**
+     *
+     * @param password user password
+     * @param salt generated salt
+     * @return String 'generatedPassword' (hashed password)
+     * @throws NoSuchAlgorithmException
+     */
     public static String GeneratePassword(String password, byte[] salt) throws NoSuchAlgorithmException {
 
 
         String generatedPassword = null;
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.reset();
             md.update(salt);
 
             byte[] hashedPassword = md.digest(password.getBytes());

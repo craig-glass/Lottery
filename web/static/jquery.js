@@ -1,3 +1,12 @@
+/**
+ * Methods to validate forms and create custom messages
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
+
 $(function(){
     $("form[name='createaccount']").validate({
 

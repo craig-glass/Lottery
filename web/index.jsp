@@ -1,3 +1,11 @@
+<!--
+* Registration and login home page
+*
+* @author Craig Glass
+* @version 1.0
+* @since 2020-11-05
+-->
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -11,6 +19,7 @@
   </head>
   <body>
 <%
+    // retrieve cookies
     String attempts = null;
     boolean unsuccessful = false;
     Cookie[] cookies = request.getCookies();
@@ -30,6 +39,7 @@
         }
     }
 
+    // remove session keeping encryption cipher and keypair and role
     session.removeAttribute("firstname");
     session.removeAttribute("lastname");
     session.removeAttribute("email");
@@ -43,6 +53,7 @@
     session.removeAttribute("winner");
     session.removeAttribute("numberstring");
 
+    // invalidate sessoin if user is a new user
     if(session.isNew()){
         HttpSession oldSession = request.getSession(false);
         oldSession.invalidate();
@@ -185,6 +196,7 @@
 
 
   <script type="text/javascript">
+      // disable login form after 3 attempts
       if('<%= attempts %>' === "3"){
           document.getElementById("username1").disabled=true;
           document.getElementById("password1").disabled=true;

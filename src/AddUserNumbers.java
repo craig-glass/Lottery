@@ -1,3 +1,11 @@
+/**
+ * Store's encrypted draw to a file
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +25,7 @@ public class AddUserNumbers extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        // get parameter data from html form
+        // get numbers from choose numbers form and build into string
         StringBuilder sb = new StringBuilder();
         sb.append(request.getParameter("numbers0")).append(", ");
         sb.append(request.getParameter("numbers1")).append(", ");
@@ -27,6 +35,7 @@ public class AddUserNumbers extends HttpServlet {
         sb.append(request.getParameter("numbers5"));
 
 
+        // encrypt and write string to file
         try {
             es.bytesFileWriter("C:\\Users\\cglas\\ComputerScience\\" +
                     "Stage_2\\Security\\Assignment\\CSC2031 Coursework\\" +

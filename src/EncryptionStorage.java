@@ -1,3 +1,12 @@
+/**
+ * Provides methods for encryption, decryption, and
+ * reading and writing to a file
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -17,6 +26,10 @@ public class EncryptionStorage {
     private Cipher cipher;
     private KeyPair pair;
 
+    /**
+     * Constructs an encryption storage object with
+     * a cipher and keypair
+     */
     public EncryptionStorage(){
         try{
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
@@ -27,6 +40,12 @@ public class EncryptionStorage {
         }
     }
 
+    /**
+     * Encrypts user's draw
+     *
+     * @param data user's draw
+     * @return byte[]
+     */
     public byte[] encryptData(String data) {
         try{
 
@@ -42,6 +61,12 @@ public class EncryptionStorage {
         return null;
     }
 
+    /**
+     * Writes byte[] to file
+     *
+     * @param filename derived from user's password
+     * @param data encrypted data
+     */
     public void bytesFileWriter(String filename, byte[] data){
         try {
             OutputStream os = new FileOutputStream(filename, true);
@@ -53,6 +78,12 @@ public class EncryptionStorage {
         }
     }
 
+    /**
+     * Reads draws from file
+     *
+     * @param filename derived from user's password
+     * @return byte[]
+     */
     public byte[] bytesFileReader(String filename){
         try {
             return Files.readAllBytes(Paths.get(filename));
@@ -62,6 +93,11 @@ public class EncryptionStorage {
         return null;
     }
 
+    /**
+     * Decrypts byte[]
+     * @param data split data
+     * @return String[] with draws
+     */
     public String[] decryptData(ArrayList<byte[]> data) {
         int i = 0;
         int dataSize = data.size();
@@ -81,6 +117,11 @@ public class EncryptionStorage {
         return decryptedData;
     }
 
+    /**
+     * Splits data into 256 byte chunks for decryption
+     * @param data data from file
+     * @return ArrayList of byte[]
+     */
     public ArrayList<byte[]> splitData(byte[] data){
         int offset = 0;
         ArrayList<byte[]> dataSplit = new ArrayList<>();

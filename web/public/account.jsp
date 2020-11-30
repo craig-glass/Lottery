@@ -1,3 +1,11 @@
+<!--
+* Account home page for public users
+*
+* @author Craig Glass
+* @version 1.0
+* @since 2020-11-05
+-->
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -13,6 +21,7 @@
     <h1>User Account</h1>
     <a href="${pageContext.request.contextPath}/LogOut">Log Out</a>
 </header>
+
 <div class="container">
     <div class="flexContent">
         <div id="userDetails">
@@ -71,6 +80,7 @@
             <% } %>
         </form>
     </div>
+
     <div class="flexContentCheckNums">
         <div id="getDraws">
             <form action="${pageContext.request.contextPath}/GetUserNumbers" method="post">
@@ -98,8 +108,8 @@
             <%
                 }
             %>
-
         </div>
+
         <div id="checkNumLogout">
             <div id="checkNumbers">
                 <form action="${pageContext.request.contextPath}/CheckNumbers" method="post">
@@ -116,12 +126,15 @@
         </div>
 
     </div>
-
 </div>
 
 
 
 <script>
+    /**
+     * Generates random numbers and
+     * populates choose numbers form
+     */
     function generateNumbers(){
         let array = new Uint8Array(6);
         window.crypto.getRandomValues(array);

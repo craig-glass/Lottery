@@ -1,9 +1,9 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: johnmace
-  Date: 21/10/2020
-  Time: 16:06
-  To change this template use File | Settings | File Templates.
+ * User's data displayed in a table
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -17,7 +17,6 @@
     <a href="${pageContext.request.contextPath}/LogOut">Log Out</a>
 </header>
 <div class="container">
-
 
     <div>
         <%= request.getAttribute("data") %>

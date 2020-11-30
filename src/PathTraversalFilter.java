@@ -1,3 +1,11 @@
+/**
+ * Prevents incorrect access to unauthorised locations
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +26,9 @@ public class PathTraversalFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
 
-        System.out.println("Reached filter");
+        // prevent access to admin home page by any unauthorised users
         if(session == null || session.getAttribute("role") == "public" ||
                 session.getAttribute("username") == null){
-            System.out.println("Reached filter if block");
             this.context.log("Unauthorized access request");
             res.sendRedirect(req.getContextPath() + "/index.jsp");
         }else{

@@ -1,3 +1,11 @@
+/**
+ * Creates a table displaying user data
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,17 +28,8 @@ public class DataTable extends HttpServlet {
         String USER = "user";
         String PASS = "password";
 
-        // URLs to connect to database depending on your development approach
-        // (NOTE: please change to option 1 when submitting)
-
-        // 1. use this when running everything in Docker using docker-compose
-        // String DB_URL = "jdbc:mysql://db:3306/lottery";
-
-        // 2. use this when running tomcat server locally on your machine and mysql database server in Docker
-        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
-
-        // 3. use this when running tomcat and mysql database servers on your machine
-        //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
+        // URL to connect to database
+        String DB_URL = "jdbc:mysql://db:3306/lottery";
 
 
         try {
@@ -45,7 +44,7 @@ public class DataTable extends HttpServlet {
 
             // create HTML table text
             String content = "<table class='tableStyle rowStyle'>" +
-                    "<tr><th>First name</th><th>Last name</th><th>Email</th><th>Phone number</th><th>Username</th></tr>";
+                    "<tr><th>First name</th><th>Last name</th><th>Email</th><th>Phone number</th><th>Username</th><th>Role</th></tr>";
 
             // add HTML table data using data from database
             while (rs.next()) {
@@ -53,7 +52,8 @@ public class DataTable extends HttpServlet {
                         "<td>" + rs.getString("Lastname") + "</td>" +
                         "<td>" + rs.getString("Email") + "</td>" +
                         "<td>" + rs.getString("Phone") + "</td>" +
-                        "<td>" + rs.getString("Username") + "</td></tr>";
+                        "<td>" + rs.getString("Username") + "</td> +" +
+                        "<td>" + rs.getString("UserRole") + "</tr>";
             }
             // finish HTML table text
             content += "</table>";

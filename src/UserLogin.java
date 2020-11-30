@@ -1,3 +1,12 @@
+/**
+ * Checks username and password for a match in the database,
+ * and logs user in if match
+ *
+ * @author Craig Glass
+ * @version 1.0
+ * @since 2020-11-05
+ */
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,19 +32,8 @@ public class UserLogin extends HttpServlet {
         HttpSession session = request.getSession();
 
 
-        // URLs to connect to database depending on your development approach
-        // (NOTE: please change to option 1 when submitting)
-
-        // 1. use this when running everything in Docker using docker-compose
-        // String DB_URL = "jdbc:mysql://db:3306/lottery";
-
-        // 2. use this when running tomcat server locally on your machine and mysql database server in Docker
-        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
-
-        // 3. use this when running tomcat and mysql database servers on your machine
-        //String DB_URL = "jdbc:mysql://localhost:3306/lottery";
-
-
+        // URL to connect to database
+         String DB_URL = "jdbc:mysql://db:3306/lottery";
 
 
             String user = request.getParameter("username1");
@@ -72,6 +70,7 @@ public class UserLogin extends HttpServlet {
                         salt = rs.getBytes("Salt");
                     }
 
+                    // generate hashed password
                     try {
                         pass = CreateAccount.GeneratePassword(pass, salt);
                     } catch (NoSuchAlgorithmException e) {
@@ -80,6 +79,7 @@ public class UserLogin extends HttpServlet {
 
                     session.setAttribute("pass", pass);
 
+                    // check match for username, password and role
                     String stmt1 = "SELECT * FROM userAccounts WHERE Username=? AND Pwd=? AND UserRole=?";
                     PreparedStatement ps = conn.prepareStatement(stmt1);
 
@@ -90,6 +90,7 @@ public class UserLogin extends HttpServlet {
                     ResultSet rs1 = ps.executeQuery();
 
 
+                    // if match then retrieve data from database
                     if(rs1.next()){
                         String dbfirstname = rs1.getString("Firstname");
                         String dblastname = rs1.getString("Lastname");
@@ -99,6 +100,7 @@ public class UserLogin extends HttpServlet {
                         String dbpassword = rs1.getString("Pwd");
                         String dbrole = rs1.getString("UserRole");
 
+                        // if match then set details as attributes
                         if(user.equals(dbusername) && pass.equals(dbpassword) &&
                                 role.equals(dbrole)){
                             
@@ -108,6 +110,7 @@ public class UserLogin extends HttpServlet {
                             session.setAttribute("telephone", dbphone);
                             session.setAttribute("username", dbusername);
 
+                            // if role is admin log in to admin hom page
                             if(dbrole.equals("admin")){
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
                                         "/admin/admin_home.jsp");
@@ -116,7 +119,9 @@ public class UserLogin extends HttpServlet {
                                 session.setAttribute("winningnumbers", "");
                                 request.setAttribute("message", "Successfully logged in!");
                                 dispatcher.forward(request, response);
-                            }else if(dbrole.equals("public")){
+                            }
+                            // if role is public log in to accounts page
+                            else if(dbrole.equals("public")){
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("" +
                                         "/public/account.jsp");
                                 request.setAttribute("message", "Successfully logged in!");
@@ -130,11 +135,15 @@ public class UserLogin extends HttpServlet {
                                 dispatcher.forward(request, response);
                             }
                         }else{
+                            // if log in fails 3 times reset attempts
                             if(attempts > 2){
                                 attempts = 0;
                             }
+                            // if log in fails increment attempts
                             attempts += 1;
                             System.out.println("Attempts = " + attempts);
+
+                            // if log in fails 3 times the set cookie and go to error page
                             if(attempts == 3){
                                 Cookie attempts = new Cookie("attempts", "3");
                                 response.addCookie(attempts);
@@ -146,7 +155,7 @@ public class UserLogin extends HttpServlet {
 
                             else{
 
-                                // display error.jsp page with given message if successful
+                                // display error.jsp page with given message if log in fails
                                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                                 request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
                                 dispatcher.forward(request, response);
@@ -171,8 +180,6 @@ public class UserLogin extends HttpServlet {
                         }
 
                         else{
-
-                            // display error.jsp page with given message if successful
                             RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                             request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
                             dispatcher.forward(request, response);
@@ -201,7 +208,6 @@ public class UserLogin extends HttpServlet {
 
                         Cookie unsuccessful = new Cookie("unsuccessful", "true");
                         response.addCookie(unsuccessful);
-                        // display error.jsp page with given message if successful
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                         request.setAttribute("message", "Please enter valid details! " + (3 - attempts) + " Attempts Left!");
                         dispatcher.forward(request, response);
@@ -214,7 +220,6 @@ public class UserLogin extends HttpServlet {
 
             } catch (Exception se) {
                 se.printStackTrace();
-                // display error.jsp page with given message if successful
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
                 request.setAttribute("message", "Error connecting to database, please try again");
                 dispatcher.forward(request, response);
