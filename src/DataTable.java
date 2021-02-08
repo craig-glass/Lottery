@@ -29,7 +29,7 @@ public class DataTable extends HttpServlet {
         String PASS = "password";
 
         // URL to connect to database
-        String DB_URL = "jdbc:mysql://db:3306/lottery";
+        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
 
 
         try {

@@ -39,7 +39,8 @@ public class CreateAccount extends HttpServlet {
 
 
         // URL to connect to database
-        String DB_URL = "jdbc:mysql://db:3306/lottery";
+        String DB_URL = "jdbc:mysql://localhost:33333/lottery" +
+                "";
 
 
         // check register button has been pressed

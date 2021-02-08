@@ -30,7 +30,7 @@ public class CheckNumbers extends HttpServlet {
         String USER = "user";
         String PASS = "password";
         HttpSession session = request.getSession();
-        String DB_URL = "jdbc:mysql://db:3306/lottery";
+        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
 
 
         try{

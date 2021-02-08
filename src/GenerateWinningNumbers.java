@@ -32,7 +32,7 @@ public class GenerateWinningNumbers extends HttpServlet {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String USER = "user";
         String PASS = "password";
-        String DB_URL = "jdbc:mysql://db:3306/lottery";
+        String DB_URL = "jdbc:mysql://localhost:33333/lottery";
 
         HttpSession session = request.getSession();
         Random rand = new Random();
